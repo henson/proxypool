@@ -65,21 +65,30 @@
 
 ### 3、安装及使用
 
-下载代码：
+因为有些代理网站使用了加密页面、混淆代码等反爬技术，要正确采集到代理数据得用到 [PhantomJS](http://phantomjs.org/) ，必须提前先装好。
+
+另外，本项目用到的依赖库有：
+```
+gopkg.in/mgo.v2
+gopkg.in/mgo.v2/bson
+github.com/PuerkitoBio/goquery
+github.com/nladuo/go-phantomjs-fetcher
+```
+
+下载本项目：
 ```
 go get -u github.com/henson/ProxyPool
 ```
 
-配置好相应的config.json并启动：
+然后配置好相应的config.json并启动：
 ```
 go build
-
 ./ProxyPool
 ```
 
-使用：
+访问如下地址：
 ```
-访问：http://localhost:8080/v1/ip
+GET http://localhost:8080/v1/ip
 ```
 ![HTTP](pics/http.png)
 
