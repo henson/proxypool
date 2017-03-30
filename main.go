@@ -1,13 +1,14 @@
 package main
 
 import (
-	"ProxyPool/api"
-	"ProxyPool/getter"
-	"ProxyPool/storage"
 	"log"
 	"runtime"
 	"sync"
 	"time"
+
+	"github.com/henson/ProxyPool/api"
+	"github.com/henson/ProxyPool/getter"
+	"github.com/henson/ProxyPool/storage"
 )
 
 func main() {

@@ -1,11 +1,12 @@
 package api
 
 import (
-	"ProxyPool/storage"
-	"ProxyPool/util"
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/henson/ProxyPool/storage"
+	"github.com/henson/ProxyPool/util"
 )
 
 // VERSION for this program

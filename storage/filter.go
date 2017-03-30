@@ -1,12 +1,12 @@
 package storage
 
 import (
-	"ProxyPool/models"
 	"log"
 	"math/rand"
 	"sync"
 	"time"
 
+	"github.com/henson/ProxyPool/models"
 	"github.com/parnurzeal/gorequest"
 )
 
