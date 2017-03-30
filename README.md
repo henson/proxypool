@@ -1,5 +1,5 @@
 
-> Golang的代理池服务，采集免费的代理资源为爬虫提供有效的代理。
+> Golang实现的IP代理池，采集免费的代理资源为爬虫提供有效的代理。
 
 ### 1、代理池设计
 
@@ -20,27 +20,31 @@
 * Api：
 
 　　代理池的访问接口，提供get接口输出JSON，方便爬虫直接使用。
-<!--#### 功能图纸-->
-![设计](https://pic2.zhimg.com/v2-f2756da2986aa8a8cab1f9562a115b55_b.png)
 
 ### 2、代码实现
 
 * Api：
+
 　　api接口相关代码，提供`get`接口，输出JSON；
 
 * Storage：
+
 　　数据库相关代码，数据库采用Mongo；
 
 * Getter：
+
 　　代理获取的相关代码，目前抓取：[快代理](http://www.kuaidaili.com)、[代理66](http://www.66ip.cn)、[IP181](http://www.ip181.com)、[有代理](http://www.youdaili.net/Daili/http/)、[西刺代理](http://www.xicidaili.com/nn/)、[guobanjia](http://www.goubanjia.com/free/gngn/index)这个六个网站的免费代理，经测试这些网站每天更新的可用代理只有六七十个，当然也支持自己扩展代理接口；
 
 * Schedule：
+
 　　定时任务，目前在main.go中以轮询方式实现，后期会改进；
 
 * Util：
+
 　　存放一些公共的模块、方法或函数，包含`Config`:读取配置文件config.json；
 
 * 其他文件：
+
 　　配置文件:config.json，数据库配置和代理获取接口配置；
 
 ```
@@ -63,10 +67,8 @@ go get -u github.com/henson/ProxyPool
 
 ```
 
-启动：
+配置好相应的config.json并启动：
 ```
-配置好相应的config.json
-
 go build
 
 ./ProxyPool
