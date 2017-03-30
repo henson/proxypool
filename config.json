@@ -1,0 +1,9 @@
+{
+    "mongo": {
+        "addr": "mongodb://127.0.0.1:27017/",
+        "db": "temp",
+        "table": "pool",
+        "event": "event"
+    },
+    "host": ":8080"
+}
