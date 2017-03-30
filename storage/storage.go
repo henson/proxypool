@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// Storage struct is used for storeing persistant data of alerts
+// Storage struct is used for storeing persistent data of alerts
 type Storage struct {
 	database string
 	table    string

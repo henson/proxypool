@@ -1,5 +1,9 @@
+[![Travis Status for henson/MusicDownloader](https://travis-ci.org/henson/ProxyPool.svg?branch=master)](https://travis-ci.org/henson/ProxyPool) [![Go Report Card](https://goreportcard.com/report/github.com/henson/ProxyPool)](https://goreportcard.com/report/github.com/henson/ProxyPool)
 
-> Golang实现的IP代理池，采集免费的代理资源为爬虫提供有效的代理。
+# Golang实现的IP代理池
+
+> 采集免费的代理资源为爬虫提供有效的代理
+
 
 ### 1、代理池设计
 
@@ -64,7 +68,6 @@
 下载代码：
 ```
 go get -u github.com/henson/ProxyPool
-
 ```
 
 配置好相应的config.json并启动：
