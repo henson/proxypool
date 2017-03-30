@@ -81,3 +81,8 @@ go build
 ```
 访问：http://localhost:8080/v1/ip
 ```
+![HTTP](pics/http.png)
+
+### 4、感谢
+
+感谢 [J_hao104](https://github.com/jhao104/proxy_pool) 提供思路。
