@@ -6,11 +6,12 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/henson/ProxyPool/models"
 	"github.com/nladuo/go-phantomjs-fetcher"
 )
 
 // KDL get ip from kuaidaili.com
-func KDL() (result []string) {
+func KDL() (result []*models.IP) {
 	pollURL := "http://www.kuaidaili.com/proxylist/"
 	//create a fetcher which seems to a httpClient
 	fetcher, err := phantomjs.NewFetcher(2016, nil)
@@ -42,7 +43,11 @@ func KDL() (result []string) {
 			node := strconv.Itoa(i + 1)
 			sf, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(1)").Html()
 			ff, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(2)").Html()
-			result = append(result, (sf + ":" + ff))
+			hh, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(4)").Html()
+			ip := models.NewIP()
+			ip.Data = sf + ":" + ff
+			ip.Type = strings.ToLower(hh)
+			result = append(result, ip)
 		})
 	}
 	log.Println("KDL done.")

@@ -98,3 +98,15 @@ func (s *Storage) GetAll() ([]*models.IP, error) {
 	}
 	return ips, nil
 }
+
+// FindAll .
+func (s *Storage) FindAll(value string) ([]*models.IP, error) {
+	ses := s.GetDBSession()
+	defer ses.Close()
+	var ips []*models.IP
+	err := ses.DB(s.database).C(s.table).Find(bson.M{"type": bson.M{"$regex": value, "$options": "$i"}}).All(&ips)
+	if err != nil {
+		return nil, err
+	}
+	return ips, nil
+}

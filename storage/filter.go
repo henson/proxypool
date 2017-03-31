@@ -11,16 +11,16 @@ import (
 )
 
 // CheckProxy .
-func CheckProxy(ip string) {
+func CheckProxy(ip *models.IP) {
 	if CheckIP(ip) {
 		ProxyAdd(ip)
 	}
 }
 
 // CheckIP is to check the ip work or not
-func CheckIP(ip string) bool {
+func CheckIP(ip *models.IP) bool {
 	pollURL := "http://www.baidu.com"
-	resp, _, errs := gorequest.New().Proxy("http://" + ip).Get(pollURL).End()
+	resp, _, errs := gorequest.New().Proxy("http://" + ip.Data).Get(pollURL).End()
 	if errs != nil {
 		return false
 	}
@@ -44,7 +44,7 @@ func CheckProxyDB() {
 	for _, v := range ips {
 		wg.Add(1)
 		go func(v *models.IP) {
-			if !CheckIP(v.Data) {
+			if !CheckIP(v) {
 				ProxyDel(v)
 			}
 			wg.Done()
@@ -60,19 +60,27 @@ func ProxyRandom() (ip *models.IP) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	conn := NewStorage()
 	ips, _ := conn.GetAll()
-	x := conn.Count()
+	x := len(ips)
+
+	return ips[r.Intn(x)]
+}
+
+// ProxyFind .
+func ProxyFind(value string) (ip *models.IP) {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	conn := NewStorage()
+	ips, _ := conn.FindAll(value)
+	x := len(ips)
 
 	return ips[r.Intn(x)]
 }
 
 // ProxyAdd .
-func ProxyAdd(ip string) {
+func ProxyAdd(ip *models.IP) {
 	conn := NewStorage()
-	_, err := conn.GetOne(ip)
+	_, err := conn.GetOne(ip.Data)
 	if err != nil {
-		things := models.NewIP()
-		things.Data = ip
-		conn.Create(things)
+		conn.Create(ip)
 	}
 }
 

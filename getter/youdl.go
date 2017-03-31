@@ -5,11 +5,12 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/henson/ProxyPool/models"
 	"github.com/parnurzeal/gorequest"
 )
 
 // YDL get ip from youdaili.net
-func YDL() (result []string) {
+func YDL() (result []*models.IP) {
 	pollURL := "http://www.youdaili.net/Daili/http/"
 	_, body, errs := gorequest.New().Get(pollURL).End()
 	if errs != nil {
@@ -34,8 +35,11 @@ func YDL() (result []string) {
 		return
 	}
 	doc.Find(".content p").Each(func(_ int, s *goquery.Selection) {
-		temp := strings.Split(s.Text(), "@")[0]
-		result = append(result, temp)
+		ip := models.NewIP()
+		c := strings.Split(s.Text(), "@")
+		ip.Data = c[0]
+		ip.Type = strings.ToLower(strings.Split(c[1], "#")[0])
+		result = append(result, ip)
 	})
 	log.Println("YDL done.")
 	return

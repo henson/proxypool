@@ -11,11 +11,11 @@
 
 * Getter：
 
-　　代理获取接口，目前有6个免费代理源，每调用一次就会抓取这个6个网站最新的100个代理放入Channel，可自行添加额外的代理获取接口；
+　　代理获取接口，目前有**8**个免费代理源，每调用一次就会抓取这8个网站最新的100个代理放入Channel，可自行添加额外的代理获取接口；
 
 * Channel：
 
-　　临时存放采集来的代理，通过访问稳定的网站去验证代理的有效性，有效则并存入数据库；
+　　临时存放采集来的代理，通过访问稳定的网站去验证代理的有效性，有效则存入数据库；
 
 * Schedule：
 
@@ -37,7 +37,7 @@
 
 * Getter：
 
-　　代理获取的相关代码，目前抓取：[快代理](http://www.kuaidaili.com)、[代理66](http://www.66ip.cn)、[IP181](http://www.ip181.com)、[有代理](http://www.youdaili.net/Daili/http/)、[西刺代理](http://www.xicidaili.com/nn/)、[guobanjia](http://www.goubanjia.com/free/gngn/index)这个六个网站的免费代理，经测试这些网站每天更新的可用代理只有六七十个，当然也支持自己扩展代理接口；
+　　代理获取的相关代码，目前抓取：[快代理](http://www.kuaidaili.com)、[代理66](http://www.66ip.cn)、[IP181](http://www.ip181.com)、[有代理](http://www.youdaili.net/Daili/http/)、[西刺代理](http://www.xicidaili.com/nn/)、[guobanjia](http://www.goubanjia.com/free/gngn/index)、[讯代理](http://www.xdaili.cn/freeproxy.html)、[无忧代理](http://www.data5u.com/free/index.shtml)...这八个网站的免费代理，当然也支持自己扩展代理接口；
 
 * Schedule：
 
@@ -56,8 +56,7 @@
     "mongo": {
         "addr": "mongodb://127.0.0.1:27017/",
         "db": "temp",
-        "table": "pool",
-        "event": "event"
+        "table": "pool"
     },
     "host": ":8080"
 }
@@ -70,8 +69,8 @@
 另外，本项目用到的依赖库有：
 ```
 gopkg.in/mgo.v2
-gopkg.in/mgo.v2/bson
 github.com/PuerkitoBio/goquery
+github.com/parnurzeal/gorequest
 github.com/nladuo/go-phantomjs-fetcher
 ```
 
@@ -86,11 +85,17 @@ go build
 ./ProxyPool
 ```
 
-访问如下地址：
+随机输出可用的代理：
 ```
 GET http://localhost:8080/v1/ip
 ```
 ![HTTP](pics/http.png)
+
+随机输出HTTPS代理：
+```
+GET http://localhost:8080/v1/https
+```
+![HTTPS](pics/https.png)
 
 ### 4、感谢
 

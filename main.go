@@ -8,12 +8,13 @@ import (
 
 	"github.com/henson/ProxyPool/api"
 	"github.com/henson/ProxyPool/getter"
+	"github.com/henson/ProxyPool/models"
 	"github.com/henson/ProxyPool/storage"
 )
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	ipChan := make(chan string, 1000)
+	ipChan := make(chan *models.IP, 1000)
 	conn := storage.NewStorage()
 
 	// Start HTTP
@@ -46,19 +47,21 @@ func main() {
 	}
 }
 
-func run(ipChan chan<- string) {
+func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
-	funs := []func() []string{
+	funs := []func() []*models.IP{
+		getter.Data5u,
 		getter.IP66,
 		getter.KDL,
 		getter.GBJ,
 		getter.Xici,
+		getter.XDL,
 		getter.IP181,
 		getter.YDL,
 	}
 	for _, f := range funs {
 		wg.Add(1)
-		go func(f func() []string) {
+		go func(f func() []*models.IP) {
 			temp := f()
 			for _, v := range temp {
 				ipChan <- v
