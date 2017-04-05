@@ -37,7 +37,7 @@
 
 * Getter：
 
-　　代理获取的相关代码，目前抓取这九个网站的免费代理：
+　　代理获取的相关代码，目前抓取这九个网站的免费代理，当然也支持自己扩展代理接口；
 
         [快代理](http://www.kuaidaili.com)
         [代理66](http://www.66ip.cn)
@@ -49,8 +49,6 @@
         [无忧代理](http://www.data5u.com/free/index.shtml)
         [Proxylist+](https://list.proxylistplus.com)
         ...
-    
-当然也支持自己扩展代理接口；
 
 * Schedule：
 
