@@ -58,6 +58,7 @@ func run(ipChan chan<- *models.IP) {
 		getter.XDL,
 		getter.IP181,
 		getter.YDL,
+		getter.PLP,
 	}
 	for _, f := range funs {
 		wg.Add(1)
