@@ -37,18 +37,17 @@
 
 * Getter：
 
-　　代理获取的相关代码，目前抓取这九个网站的免费代理，当然也支持自己扩展代理接口；
+　　代理获取接口，目前抓取这九个网站的免费代理，当然也支持自己扩展代理接口；
 
-        [快代理](http://www.kuaidaili.com)
-        [代理66](http://www.66ip.cn)
-        [IP181](http://www.ip181.com)
-        [有代理](http://www.youdaili.net/Daili/http/)
-        [西刺代理](http://www.xicidaili.com/nn/)
-        [guobanjia](http://www.goubanjia.com/free/gngn/index)
-        [讯代理](http://www.xdaili.cn/freeproxy.html)
-        [无忧代理](http://www.data5u.com/free/index.shtml)
-        [Proxylist+](https://list.proxylistplus.com)
-        ...
+1. [快代理](http://www.kuaidaili.com)
+2. [代理66](http://www.66ip.cn)
+3. [IP181](http://www.ip181.com)
+4. [有代理](http://www.youdaili.net/Daili/http/)
+5. [西刺代理](http://www.xicidaili.com/nn/)
+6. [guobanjia](http://www.goubanjia.com/free/gngn/index)
+7. [讯代理](http://www.xdaili.cn/freeproxy.html)
+8. [无忧代理](http://www.data5u.com/free/index.shtml)
+9. [Proxylist+](https://list.proxylistplus.com)
 
 * Schedule：
 
