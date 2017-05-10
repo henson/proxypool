@@ -14,7 +14,7 @@ import (
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	ipChan := make(chan *models.IP, 1000)
+	ipChan := make(chan *models.IP, 2000)
 	conn := storage.NewStorage()
 
 	// Start HTTP
