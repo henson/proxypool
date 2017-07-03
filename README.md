@@ -106,7 +106,3 @@ GET http://localhost:8080/v1/ip
 GET http://localhost:8080/v1/https
 ```
 ![HTTPS](pics/https.png)
-
-### 4、感谢
-
-感谢 [J_hao104](https://github.com/jhao104/proxy_pool) 提供思路。
