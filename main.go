@@ -56,7 +56,7 @@ func run(ipChan chan<- *models.IP) {
 		getter.GBJ,
 		getter.Xici,
 		getter.XDL,
-		getter.IP181,
+		//getter.IP181,
 		getter.YDL,
 		getter.PLP,
 	}

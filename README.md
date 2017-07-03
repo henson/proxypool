@@ -41,7 +41,7 @@
 
 1. [快代理](http://www.kuaidaili.com)
 2. [代理66](http://www.66ip.cn)
-3. [IP181](http://www.ip181.com)
+3. ~~[IP181](http://www.ip181.com)~~
 4. [有代理](http://www.youdaili.net/Daili/http/)
 5. [西刺代理](http://www.xicidaili.com/nn/)
 6. [guobanjia](http://www.goubanjia.com/free/gngn/index)
