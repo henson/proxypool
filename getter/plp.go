@@ -12,7 +12,7 @@ import (
 
 //PLP get ip from proxylistplus.com
 func PLP() (result []*models.IP) {
-	pollURL := "https://list.proxylistplus.com/"
+	pollURL := "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1"
 	_, body, errs := gorequest.New().Get(pollURL).End()
 	if errs != nil {
 		log.Println(errs)

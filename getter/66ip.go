@@ -10,14 +10,14 @@ import (
 
 // IP66 get ip from 66ip.cn
 func IP66() (result []*models.IP) {
-	pollURL := "http://www.66ip.cn/mo.php?tqsl=100&submit=%CC%E1++%C8%A1"
+	pollURL := "http://www.66ip.cn/mo.php?tqsl=100"
 	_, body, errs := gorequest.New().Get(pollURL).End()
 	if errs != nil {
 		log.Println(errs)
 		return
 	}
-
-	body = strings.Split(body, "c.js'></script>")[1]
+	body = strings.Split(body, "var sogou_ad_width=960;")[1]
+	body = strings.Split(body, "</script>")[1]
 	body = strings.Split(body, "</div>")[0]
 	body = strings.TrimSpace(body)
 	body = strings.Replace(body, "	", "", -1)
