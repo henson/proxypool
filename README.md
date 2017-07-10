@@ -11,7 +11,7 @@
 
 * Getter：
 
-　　代理获取接口，目前有**9**个免费代理源，每调用一次就会抓取这些网站最新的100个代理放入Channel，可自行添加额外的代理获取接口；
+　　代理获取接口，目前有**9**个免费代理源，每调用一次就会抓取这些网站最新的100个代理放入Channel，可自行[添加额外的代理获取接口](#addproxy)；
 
 * Channel：
 
@@ -106,3 +106,48 @@ GET http://localhost:8080/v1/ip
 GET http://localhost:8080/v1/https
 ```
 ![HTTPS](pics/https.png)
+
+### 4、<span id="addproxy">添加自定义代理采集接口</span>
+
+其实很简单，只需要在getter包下新增一个采集函数（如例子的Data5u()），甚至可以不需要新建一个go文件（新建文件是为了方便归档采集函数，如例子5u.go）。
+
+```
+// 5u.go
+// Data5u get ip from data5u.com
+func Data5u() (result []*models.IP) {
+	//处理逻辑
+	...
+	log.Println("Data5u done.")
+	return
+}
+```
+
+然后在main.go的run函数中添加、删除或注释掉该采集函数的调用即可。
+
+```
+func run(ipChan chan<- *models.IP) {
+	var wg sync.WaitGroup
+	funs := []func() []*models.IP{
+		getter.Data5u,
+		getter.IP66,
+		getter.KDL,
+		getter.GBJ,
+		getter.Xici,
+		getter.XDL,
+		//getter.IP181,
+		//getter.YDL,
+		getter.PLP,
+	}
+    ...
+}
+```
+
+### 5、异常恢复
+
+之前，偶尔会有朋友跟我反映程序无法编译，经过检查发现都是代理网站发生了变化（或修改了页面或关闭了网站），以致于采集程序原先设计的爬虫不能正常工作而导致了错误的发生。为此，我修改了代码，加入了容错机制，即便爬虫出错了也不会影响到主体程序的运行。出错的采集进程会被主线程忽略，其它正常的采集进程仍将继续工作。
+
+### 6、诚挚的感谢
+
+- 首先感谢您的使用，如果觉得程序还不错也能帮助您解决实际问题，不妨添个赞以鼓励本人继续努力，谢谢！
+- 如果您对程序有任何建议和意见，也欢迎提交issue。
+- 当然，如果您愿意贡献代码和我一起改进本程序，那再好不过了。

@@ -38,6 +38,9 @@ func PLP() (result []*models.IP) {
 		ip.Type = ssss
 		result = append(result, ip)
 	})
+	if len(result) > 0 {
+		result = result[2:]
+	}
 	log.Println("PLP done.")
-	return result[2:]
+	return
 }
