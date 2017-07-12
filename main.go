@@ -56,7 +56,7 @@ func run(ipChan chan<- *models.IP) {
 		getter.GBJ,
 		getter.Xici,
 		getter.XDL,
-		//getter.IP181, 	//无内容的采集脚本，用作系统容错实验
+		getter.IP181,
 		//getter.YDL,		//失效的采集脚本，用作系统容错实验
 		getter.PLP,
 	}
