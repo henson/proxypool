@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/henson/ProxyPool/storage"
-	"github.com/henson/ProxyPool/util"
+	"github.com/Aiicy/ProxyPool/pkg/setting"
+	"github.com/Aiicy/ProxyPool/pkg/storage"
 )
 
 // VERSION for this program
@@ -14,11 +14,12 @@ const VERSION = "/v1"
 
 // Run for request
 func Run() {
+
 	mux := http.NewServeMux()
 	mux.HandleFunc(VERSION+"/ip", ProxyHandler)
 	mux.HandleFunc(VERSION+"/https", FindHandler)
-	log.Println("Starting server", util.NewConfig().Host)
-	http.ListenAndServe(util.NewConfig().Host, mux)
+	log.Println("Starting server", setting.AppAddr+":"+setting.AppPort)
+	http.ListenAndServe(setting.AppAddr+":"+setting.AppPort, mux)
 }
 
 // ProxyHandler .

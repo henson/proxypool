@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/henson/ProxyPool/models"
+	"github.com/Aiicy/ProxyPool/pkg/models"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -32,10 +32,10 @@ func CheckIP(ip *models.IP) bool {
 
 // CheckProxyDB to check the ip in DB
 func CheckProxyDB() {
-	conn := NewStorage()
-	x := conn.Count()
+
+	x := models.CountIPs()
 	log.Println("Before check, DB has:", x, "records.")
-	ips, err := conn.GetAll()
+	ips, err := models.GetAll()
 	if err != nil {
 		log.Println(err.Error())
 		return
@@ -51,15 +51,14 @@ func CheckProxyDB() {
 		}(v)
 	}
 	wg.Wait()
-	x = conn.Count()
+	x = models.CountIPs()
 	log.Println("After check, DB has:", x, "records.")
 }
 
 // ProxyRandom .
 func ProxyRandom() (ip *models.IP) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	conn := NewStorage()
-	ips, _ := conn.GetAll()
+	ips, _ := models.GetAll()
 	x := len(ips)
 
 	return ips[r.Intn(x)]
@@ -68,26 +67,22 @@ func ProxyRandom() (ip *models.IP) {
 // ProxyFind .
 func ProxyFind(value string) (ip *models.IP) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	conn := NewStorage()
-	ips, _ := conn.FindAll(value)
+	ips, err := models.FindAll(value)
 	x := len(ips)
+	if err != nil {
+		log.Println(err)
+		return models.NewIP()
+	}
 
 	return ips[r.Intn(x)]
 }
 
 // ProxyAdd .
 func ProxyAdd(ip *models.IP) {
-	conn := NewStorage()
-	_, err := conn.GetOne(ip.Data)
-	if err != nil {
-		conn.Create(ip)
-	}
+	models.InsertIps(ip)
 }
 
 // ProxyDel .
 func ProxyDel(ip *models.IP) {
-	conn := NewStorage()
-	if err := conn.Delete(ip); err != nil {
-		log.Println(err.Error())
-	}
+	models.DeleteIP(ip)
 }
