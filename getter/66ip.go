@@ -34,8 +34,8 @@ func IP66() (result []*models.IP) {
 	for index := 0; index < len(ips); index++ {
 		ip := models.NewIP()
 		ip.Data = strings.TrimSpace(ips[index])
-		ip.Type = "http"
-		fmt.Printf("ip = %s, type = %s\n", ip.Data, ip.Type)
+		ip.Type1 = "http"
+		fmt.Printf("[IP66] ip = %s, type = %s\n", ip.Data, ip.Type1)
 		result = append(result, ip)
 	}
 

@@ -2,9 +2,10 @@ package models
 
 // IP struct
 type IP struct {
-	ID   int64  `xorm:"pk autoincr" json:"-"`
-	Data string `xorm:"NOT NULL" json:"ip"`
-	Type string `xorm:"NOT NULL" json:"type"`
+	ID    int64  `xorm:"pk autoincr" json:"-"`
+	Data  string `xorm:"NOT NULL" json:"ip"`
+	Type1 string `xorm:"NOT NULL" json:"type1"`
+	Type2 string `xorm:"NULL" json:"type2,omitempty"`
 }
 
 // NewIP .
@@ -29,7 +30,7 @@ func InsertIps(ip *IP) (err error) {
 
 func countIps() int64 {
 
-	count, _ := x.Where("id> ?", 1).Count(new(IP))
+	count, _ := x.Where("id> ?", 0).Count(new(IP))
 	return count
 }
 
@@ -79,10 +80,21 @@ func GetAll() ([]*IP, error) {
 
 func findAll(value string) ([]*IP, error) {
 	tmpIp := make([]*IP, 0)
-	err := x.Where("type=?", value).Find(&tmpIp)
-	if err != nil {
-		return nil, err
+	switch value {
+	case "http":
+		err := x.Where("type1=?", "http").Find(&tmpIp)
+		if err != nil {
+			return tmpIp, err
+		}
+	case "https":
+		err := x.Where("type2=?", "https").Find(&tmpIp)
+		if err != nil {
+			return tmpIp, err
+		}
+	default:
+		return tmpIp, nil
 	}
+
 	return tmpIp, nil
 }
 

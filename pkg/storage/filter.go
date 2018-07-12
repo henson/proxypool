@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"sync"
@@ -20,7 +21,14 @@ func CheckProxy(ip *models.IP) {
 // CheckIP is to check the ip work or not
 func CheckIP(ip *models.IP) bool {
 	pollURL := "http://httpbin.org/get"
-	resp, _, errs := gorequest.New().Proxy("http://" + ip.Data).Get(pollURL).End()
+	var testIP string
+	if ip.Type2 == "https" {
+		testIP = "https://" + ip.Data
+	} else {
+		testIP = "http://" + ip.Data
+	}
+	//fmt.Println(testIP)
+	resp, _, errs := gorequest.New().Proxy(testIP).Get(pollURL).End()
 	if errs != nil {
 		return false
 	}
@@ -66,15 +74,18 @@ func ProxyRandom() (ip *models.IP) {
 
 // ProxyFind .
 func ProxyFind(value string) (ip *models.IP) {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	ips, err := models.FindAll(value)
 	x := len(ips)
 	if err != nil {
 		log.Println(err)
 		return models.NewIP()
 	}
-
-	return ips[r.Intn(x)]
+	randomNum := RandInt(0, x)
+	fmt.Printf("[proxyFind] random num = %d\n", randomNum)
+	if randomNum == 0 {
+		return models.NewIP()
+	}
+	return ips[randomNum]
 }
 
 // ProxyAdd .

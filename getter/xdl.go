@@ -40,7 +40,7 @@ func XDL() (result []*models.IP) {
 		ssss = strings.Replace(strings.ToLower(ssss), "/", ",", -1)
 		ip := models.NewIP()
 		ip.Data = ss + ":" + sss
-		ip.Type = ssss
+		ip.Type1 = ssss
 		result = append(result, ip)
 	})
 	log.Println("XDL done.")

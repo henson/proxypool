@@ -54,10 +54,10 @@ func main() {
 func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
 	funs := []func() []*models.IP{
-		getter.Data5u,
+		//getter.Data5u,
 		getter.IP66,
 		//getter.KDL,
-		getter.GBJ,
+		//getter.GBJ, //因为网站限制，无法正常下载数据
 		//getter.Xici,
 		//getter.XDL,
 		getter.IP181,

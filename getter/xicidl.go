@@ -36,7 +36,7 @@ func Xici() (result []*models.IP) {
 		v = strings.Replace(v, "<br>", ":", -1)
 		ip := models.NewIP()
 		ip.Data = v
-		ip.Type = "http"
+		ip.Type1 = "http"
 		result = append(result, ip)
 	}
 	log.Println("Xici done.")
