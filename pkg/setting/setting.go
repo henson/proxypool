@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"git.aiicy.com/Align/Align/pkg/common"
+	"github.com/Aiicy/ProxyPool/pkg/util"
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
 )
@@ -158,7 +158,7 @@ func newLogService() {
 		validLevels := []string{"trace", "info", "warn", "error", "fatal"}
 		name := Cfg.Section("log." + mode).Key("LEVEL").Validate(func(v string) string {
 			v = strings.ToLower(v)
-			if common.IsSliceContainsStr(validLevels, v) {
+			if util.IsSliceContainsStr(validLevels, v) {
 				return v
 			}
 			return "trace"

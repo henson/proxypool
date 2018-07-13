@@ -1,12 +1,13 @@
 package getter
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/go-clog/clog"
 
 	"github.com/Aiicy/ProxyPool/pkg/models"
 )
@@ -35,10 +36,10 @@ func IP66() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = strings.TrimSpace(ips[index])
 		ip.Type1 = "http"
-		fmt.Printf("[IP66] ip = %s, type = %s\n", ip.Data, ip.Type1)
+		clog.Info("[IP66] ip = %s, type = %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	}
 
-	log.Println("IP66 done.")
+	clog.Info("IP66 done.")
 	return
 }

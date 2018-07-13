@@ -1,13 +1,12 @@
 package storage
 
 import (
-	"fmt"
-	"log"
 	"math/rand"
 	"sync"
 	"time"
 
 	"github.com/Aiicy/ProxyPool/pkg/models"
+	"github.com/go-clog/clog"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -20,16 +19,19 @@ func CheckProxy(ip *models.IP) {
 
 // CheckIP is to check the ip work or not
 func CheckIP(ip *models.IP) bool {
-	pollURL := "http://httpbin.org/get"
+	var pollURL string
 	var testIP string
 	if ip.Type2 == "https" {
 		testIP = "https://" + ip.Data
+		pollURL = "https://httpbin.org/get"
 	} else {
 		testIP = "http://" + ip.Data
+		pollURL = "http://httpbin.org/get"
 	}
 	//fmt.Println(testIP)
 	resp, _, errs := gorequest.New().Proxy(testIP).Get(pollURL).End()
 	if errs != nil {
+		clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, errs)
 		return false
 	}
 	if resp.StatusCode == 200 {
@@ -42,10 +44,10 @@ func CheckIP(ip *models.IP) bool {
 func CheckProxyDB() {
 
 	x := models.CountIPs()
-	log.Println("Before check, DB has:", x, "records.")
+	clog.Info("Before check, DB has:", x, "records.")
 	ips, err := models.GetAll()
 	if err != nil {
-		log.Println(err.Error())
+		clog.Warn(err.Error())
 		return
 	}
 	var wg sync.WaitGroup
@@ -60,7 +62,7 @@ func CheckProxyDB() {
 	}
 	wg.Wait()
 	x = models.CountIPs()
-	log.Println("After check, DB has:", x, "records.")
+	clog.Info("After check, DB has:", x, "records.")
 }
 
 // ProxyRandom .
@@ -77,11 +79,11 @@ func ProxyFind(value string) (ip *models.IP) {
 	ips, err := models.FindAll(value)
 	x := len(ips)
 	if err != nil {
-		log.Println(err)
+		clog.Warn(err.Error())
 		return models.NewIP()
 	}
 	randomNum := RandInt(0, x)
-	fmt.Printf("[proxyFind] random num = %d\n", randomNum)
+	clog.Info("[proxyFind] random num = %d", randomNum)
 	if randomNum == 0 {
 		return models.NewIP()
 	}

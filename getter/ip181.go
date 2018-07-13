@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/go-clog/clog"
+
 	"github.com/Aiicy/ProxyPool/pkg/models"
 	"github.com/parnurzeal/gorequest"
 )
@@ -47,10 +49,10 @@ func IP181() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = results[i].Ip + ":" + results[i].Port
 		ip.Type1 = "http"
-		fmt.Printf("[IP181] ip.Data: %s,ip.Type: %s\n", ip.Data, ip.Type1)
+		clog.Info("[IP181] ip.Data: %s,ip.Type: %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	}
 
-	log.Println("IP181 done.")
+	clog.Info("IP181 done.")
 	return
 }

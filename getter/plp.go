@@ -1,8 +1,7 @@
 package getter
 
 import (
-	"fmt"
-	"log"
+	"github.com/go-clog/clog"
 
 	"github.com/Aiicy/ProxyPool/pkg/models"
 	"github.com/Aiicy/htmlquery"
@@ -14,9 +13,8 @@ func PLP() (result []*models.IP) {
 	doc, _ := htmlquery.LoadURL(pollURL)
 	trNode, err := htmlquery.Find(doc, "//div[@class='hfeed site']//table[@class='bg']//tbody//tr")
 	if err != nil {
-		fmt.Println(err)
+		clog.Warn(err.Error())
 	}
-	fmt.Printf("tdNode = %v\n", trNode)
 	for i := 3; i < len(trNode); i++ {
 		tdNode, _ := htmlquery.Find(trNode[i], "//td")
 		ip := htmlquery.InnerText(tdNode[1])
@@ -34,11 +32,11 @@ func PLP() (result []*models.IP) {
 			Ip.Type1 = "http"
 		}
 
-		fmt.Printf("[PLP] ip.Data = %s,ip.Type = %s,%s\n", Ip.Data, Ip.Type1, Ip.Type2)
+		clog.Info("[PLP] ip.Data = %s,ip.Type = %s,%s", Ip.Data, Ip.Type1, Ip.Type2)
 
 		result = append(result, Ip)
 	}
 
-	log.Println("PLP done.")
+	clog.Info("PLP done.")
 	return
 }
