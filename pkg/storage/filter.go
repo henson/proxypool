@@ -1,9 +1,7 @@
 package storage
 
 import (
-	"math/rand"
 	"sync"
-	"time"
 
 	"github.com/Aiicy/ProxyPool/pkg/models"
 	"github.com/go-clog/clog"
@@ -67,11 +65,16 @@ func CheckProxyDB() {
 
 // ProxyRandom .
 func ProxyRandom() (ip *models.IP) {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	ips, _ := models.GetAll()
-	x := len(ips)
 
-	return ips[r.Intn(x)]
+	ips, err := models.GetAll()
+	x := len(ips)
+	if err != nil {
+		clog.Warn(err.Error())
+		return models.NewIP()
+	}
+	randomNum := RandInt(0, x)
+
+	return ips[randomNum]
 }
 
 // ProxyFind .
