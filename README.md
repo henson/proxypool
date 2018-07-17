@@ -2,7 +2,17 @@
 
 # Golang实现的IP代理池
 
-> 采集免费的代理资源为爬虫提供有效的代理
+> 采集免费的代理资源为爬虫提供有效的IP代理
+
+## 版本更新
+
+- 2017年7月17日 v2.0 感谢 @sndnvaps
+	- 使用 xorm 来处理数据库，支持 mysql, postgres 和 sqlite3
+	- 更新相应爬虫程序
+	- 加入日志
+- 2017年3月30日 v1.0 
+	- 采用 mongo 作为数据持久化
+	- 结构简洁，适合二次开发
 
 
 ### 1、代理池设计
@@ -31,45 +41,93 @@
 
 　　api接口相关代码，提供`get`接口，输出JSON；
 
-* Storage：
-
-　　数据库相关代码，数据库采用Mongo；
-
 * Getter：
 
 　　代理获取接口，目前抓取这九个网站的免费代理，当然也支持自己扩展代理接口；
 
-1. [快代理](http://www.kuaidaili.com)
+1. ~~[快代理](http://www.kuaidaili.com)~~
 2. [代理66](http://www.66ip.cn)
 3. [IP181](http://www.ip181.com)
 4. ~~[有代理](http://www.youdaili.net/Daili/http/)~~
-5. [西刺代理](http://www.xicidaili.com/nn/)
-6. [guobanjia](http://www.goubanjia.com/free/gngn/index)
-7. [讯代理](http://www.xdaili.cn/freeproxy.html)
-8. [无忧代理](http://www.data5u.com/free/index.shtml)
+5. ~~[西刺代理](http://www.xicidaili.com/nn/)~~
+6. ~~[guobanjia](http://www.goubanjia.com/free/gngn/index)~~
+7. ~~[讯代理](http://www.xdaili.cn/freeproxy.html)~~
+8. ~~[无忧代理](http://www.data5u.com/free/index.shtml)~~
 9. [Proxylist+](https://list.proxylistplus.com)
 
-* Schedule：
+* Pkg：
 
-　　定时任务，目前在main.go中以轮询方式实现，后期会改进；
-
-* Util：
-
-　　存放一些公共的模块、方法或函数，包含`Config`:读取配置文件config.json；
+　　存放一些公共的模块、方法或函数；
 
 * 其他文件：
 
-　　配置文件:config.json，数据库配置和代理获取接口配置；
+　　配置文件:conf/app.ini，数据库、日志配置和代理获取接口配置；
 
 ```
-{
-    "mongo": {
-        "addr": "mongodb://127.0.0.1:27017/",
-        "db": "temp",
-        "table": "pool"
-    },
-    "host": ":8080"
-}
+; App name
+APP_NAME = ProxyPool
+
+[server]
+HTTP_ADDR = 0.0.0.0
+HTTP_PORT = 3000
+;Session expires time
+SESSION_EXPIRES =
+
+[database]
+; Either "mysql", "postgres" or "sqlite3", you can connect to TiDB with MySQL protocol
+DB_TYPE = postgres
+HOST = 127.0.0.1:5432
+NAME = ProxyPool
+USER = postgres
+PASSWD =
+; For "postgres" only, either "disable", "require" or "verify-full"
+SSL_MODE = disable
+; For "sqlite3" and "tidb", use absolute path when you start as service
+PATH = data/ProxyPool.db
+
+[log]
+; Can be "console" and "file", default is "console"
+; ; ; Use comma to separate multiple modes, e.g. "console, file"
+MODE       = file
+; Buffer length of channel, keep it as it is if you don't know what it is.
+BUFFER_LEN = 100
+; Either "Trace", "Info", "Warn", "Error", "Fatal", default is "Trace"
+LEVEL      = Info
+; Root path of log files, align will fill it automatically.
+ROOT_PATH  = 
+
+; For "console" mode only
+[log.console]
+; leave empty to inherit
+LEVEL = Trace
+
+; For "file" mode only
+[log.file]
+; leave empty to inherit
+LEVEL          = Info
+; This enables automated log rotate (switch of following options)
+LOG_ROTATE     = true
+; Segment log daily
+DAILY_ROTATE   = true
+; Max size shift of single file, default is 28 means 1 << 28, 256MB
+MAX_SIZE_SHIFT = 28
+; Max line number of single file
+MAX_LINES      = 1000000
+; Expired days of log file (delete after max days)
+MAX_DAYS       = 7
+
+[log.xorm]
+; Enable file rotation
+ROTATE = true
+; Rotate every day
+ROTATE_DAILY = true
+; Rotate once file size excesses x MB
+MAX_SIZE = 100
+; Maximum days to keep logger files
+MAX_DAYS = 3
+
+[security]
+INSTALL_LOCK = false
 ```
 
 ### 3、安装及使用
@@ -78,7 +136,13 @@
 
 另外，本项目用到的依赖库有：
 ```
-gopkg.in/mgo.v2
+github.com/go-clog/clog
+github.com/go-ini/ini
+github.com/go-xorm/xorm
+github.com/go-xorm/core
+github.com/go-sql-driver/mysql
+github.com/lib/pq
+github.com/Aiicy/htmlquery
 github.com/PuerkitoBio/goquery
 github.com/parnurzeal/gorequest
 github.com/nladuo/go-phantomjs-fetcher
@@ -89,7 +153,7 @@ github.com/nladuo/go-phantomjs-fetcher
 go get -u github.com/henson/ProxyPool
 ```
 
-然后配置好相应的config.json并启动：
+然后配置好相应的app.ini并启动：
 ```
 go build
 ./ProxyPool
@@ -97,13 +161,13 @@ go build
 
 随机输出可用的代理：
 ```
-GET http://localhost:8080/v1/ip
+GET http://localhost:8080/v2/ip
 ```
 ![HTTP](pics/http.png)
 
 随机输出HTTPS代理：
 ```
-GET http://localhost:8080/v1/https
+GET http://localhost:8080/v2/https
 ```
 ![HTTPS](pics/https.png)
 

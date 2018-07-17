@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-clog/clog"
 
-	"github.com/Aiicy/ProxyPool/pkg/models"
+	"github.com/Henson/ProxyPool/pkg/models"
 )
 
 // IP66 get ip from 66ip.cn

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Aiicy/ProxyPool/pkg/models"
+	"github.com/Henson/ProxyPool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/nladuo/go-phantomjs-fetcher"
 )

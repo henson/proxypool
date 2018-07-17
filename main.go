@@ -6,11 +6,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Aiicy/ProxyPool/api"
-	"github.com/Aiicy/ProxyPool/getter"
-	"github.com/Aiicy/ProxyPool/pkg/initial"
-	"github.com/Aiicy/ProxyPool/pkg/models"
-	"github.com/Aiicy/ProxyPool/pkg/storage"
+	"github.com/Henson/ProxyPool/api"
+	"github.com/Henson/ProxyPool/getter"
+	"github.com/Henson/ProxyPool/pkg/initial"
+	"github.com/Henson/ProxyPool/pkg/models"
+	"github.com/Henson/ProxyPool/pkg/storage"
 )
 
 func main() {
@@ -57,11 +57,11 @@ func run(ipChan chan<- *models.IP) {
 		//getter.Data5u,
 		getter.IP66,
 		//getter.KDL,
-		//getter.GBJ, //因为网站限制，无法正常下载数据
+		//getter.GBJ,	//因为网站限制，无法正常下载数据
 		//getter.Xici,
 		//getter.XDL,
 		getter.IP181,
-		//getter.YDL,		//失效的采集脚本，用作系统容错实验
+		//getter.YDL,	//失效的采集脚本，用作系统容错实验
 		getter.PLP,
 	}
 	for _, f := range funs {

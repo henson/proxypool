@@ -1,8 +1,0 @@
-{
-    "mongo": {
-        "addr": "mongodb://127.0.0.1:27017?maxPoolSize=15",
-        "db": "temp",
-        "table": "pool"
-    },
-    "host": ":8080"
-}

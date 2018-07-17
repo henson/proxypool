@@ -1,9 +1,3 @@
-//
-// Copyright (C) 2017-2018 The Aiicy Team. - All Rights Reserved
-// Unauthorized copying of this file, via any medium is strictly prohibited
-// Proprietary and confidential
-// Written by CountStarlight <countstarlight@gmail.com>, June 2018
-//
 package util
 
 import "strings"

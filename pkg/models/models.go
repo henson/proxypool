@@ -1,10 +1,3 @@
-//
-// Copyright (C) 2017-2018 The Aiicy Team. - All Rights Reserved
-// Unauthorized copying of this file, via any medium is strictly prohibited
-// Proprietary and confidential
-// Written by CountStarlight <countstarlight@gmail.com>, June 2018
-//
-
 package models
 
 import (
@@ -16,7 +9,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/Aiicy/ProxyPool/pkg/setting"
+	"github.com/Henson/ProxyPool/pkg/setting"
 	"github.com/go-clog/clog"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"

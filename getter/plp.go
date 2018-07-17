@@ -3,7 +3,7 @@ package getter
 import (
 	"github.com/go-clog/clog"
 
-	"github.com/Aiicy/ProxyPool/pkg/models"
+	"github.com/Henson/ProxyPool/pkg/models"
 	"github.com/Aiicy/htmlquery"
 )
 

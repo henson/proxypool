@@ -5,12 +5,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Aiicy/ProxyPool/pkg/setting"
-	"github.com/Aiicy/ProxyPool/pkg/storage"
+	"github.com/Henson/ProxyPool/pkg/setting"
+	"github.com/Henson/ProxyPool/pkg/storage"
 )
 
 // VERSION for this program
-const VERSION = "/v1"
+const VERSION = "/v2"
 
 // Run for request
 func Run() {

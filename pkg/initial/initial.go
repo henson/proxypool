@@ -1,19 +1,12 @@
-//
-// Copyright (C) 2017-2018 The Aiicy Team. - All Rights Reserved
-// Unauthorized copying of this file, via any medium is strictly prohibited
-// Proprietary and confidential
-// Written by CountStarlight <countstarlight@gmail.com>, June 2018
-//
-
 package initial
 
 import (
 	"os"
 	"path/filepath"
 
-	"github.com/Aiicy/ProxyPool/pkg/models"
-	"github.com/Aiicy/ProxyPool/pkg/setting"
-	"github.com/Aiicy/ProxyPool/pkg/util"
+	"github.com/Henson/ProxyPool/pkg/models"
+	"github.com/Henson/ProxyPool/pkg/setting"
+	"github.com/Henson/ProxyPool/pkg/util"
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
 	"github.com/go-xorm/xorm"
