@@ -17,10 +17,11 @@ type ip181 struct {
 	Results   []Result `json:"RESULT"`
 }
 
+// Result struct
 type Result struct {
 	Postion string `json:"position"`
 	Port    string `json:"port"`
-	Ip      string `json:"ip"`
+	IP      string `json:"ip"`
 }
 
 // IP181 get ip from ip181.com
@@ -47,7 +48,7 @@ func IP181() (result []*models.IP) {
 
 	for i := 0; i < len(results); i++ {
 		ip := models.NewIP()
-		ip.Data = results[i].Ip + ":" + results[i].Port
+		ip.Data = results[i].IP + ":" + results[i].Port
 		ip.Type1 = "http"
 		clog.Info("[IP181] ip.Data: %s,ip.Type: %s", ip.Data, ip.Type1)
 		result = append(result, ip)

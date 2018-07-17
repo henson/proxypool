@@ -1,47 +1,46 @@
-[![Travis Status for henson/proxypool](https://travis-ci.org/henson/proxypool.svg?branch=master)](https://travis-ci.org/henson/proxypool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
-
 # Golang实现的IP代理池
 
 > 采集免费的代理资源为爬虫提供有效的IP代理
 
+[![Travis Status for henson/proxypool](https://travis-ci.org/henson/proxypool.svg?branch=master)](https://travis-ci.org/henson/proxypool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
+
 ## 版本更新
 
 - 2018年7月17日 v2.0 感谢 [@sndnvaps](https://github.com/sndnvaps)
-	- 使用 xorm 来处理数据库，支持 mysql、mssql、postgres 和 sqlite3
-	- 更新相应爬虫程序
-	- 加入日志
-- 2017年3月30日 v1.0 
-	- 采用 mongo 作为数据持久化
-	- 结构简洁，适合二次开发
-
+  - 使用 xorm 来处理数据库，支持 mysql、mssql、postgres 和 sqlite3
+  - 更新相应爬虫程序
+  - 加入日志
+- 2017年3月30日 v1.0
+  - 采用 mongo 作为数据持久化
+  - 结构简洁，适合二次开发
 
 ### 1、代理池设计
 
 　　代理池由四部分组成：
 
-* Getter：
+- Getter：
 
 　　代理获取接口，目前有**9**个免费代理源，每调用一次就会抓取这些网站最新的100个代理放入Channel，可自行[添加额外的代理获取接口](#4添加自定义代理采集接口)；
 
-* Channel：
+- Channel：
 
 　　临时存放采集来的代理，通过访问稳定的网站去验证代理的有效性，有效则存入数据库；
 
-* Schedule：
+- Schedule：
 
 　　用定时的计划任务去检测数据库中代理IP的可用性，删除不可用的代理。同时也会主动通过Getter去获取最新代理；
 
-* Api：
+- Api：
 
 　　代理池的访问接口，提供get接口输出JSON，方便爬虫直接使用。
 
 ### 2、代码实现
 
-* Api：
+- Api：
 
 　　api接口相关代码，提供`get`接口，输出JSON；
 
-* Getter：
+- Getter：
 
 　　代理获取接口，目前抓取这九个网站的免费代理，当然也支持自己扩展代理接口；
 
@@ -55,15 +54,15 @@
 8. ~~[无忧代理](http://www.data5u.com/free/index.shtml)~~
 9. [Proxylist+](https://list.proxylistplus.com)
 
-* Pkg：
+- Pkg：
 
 　　存放一些公共的模块、方法或函数；
 
-* 其他：
+- 其他：
 
 　　配置文件:conf/app.ini，数据库、日志配置和代理获取接口配置；
 
-```
+```ini
 ; App name
 APP_NAME = ProxyPool
 
@@ -94,7 +93,7 @@ BUFFER_LEN = 100
 ; Either "Trace", "Info", "Warn", "Error", "Fatal", default is "Trace"
 LEVEL      = Info
 ; Root path of log files, align will fill it automatically.
-ROOT_PATH  = 
+ROOT_PATH  =  
 
 ; For "console" mode only
 [log.console]
@@ -175,33 +174,33 @@ GET http://localhost:8080/v2/https
 
 其实很简单，只需要在getter包下新增一个采集函数（如例子的Data5u()），甚至可以不需要新建一个go文件（新建文件是为了方便归档采集函数，如例子5u.go）。
 
-```
+```golang
 // 5u.go
 // Data5u get ip from data5u.com
 func Data5u() (result []*models.IP) {
-	//处理逻辑
-	...
-	log.Println("Data5u done.")
-	return
+    //处理逻辑
+    ...
+    log.Println("Data5u done.")
+    return
 }
 ```
 
 然后在main.go的run函数中添加、删除或注释掉该采集函数的调用即可。
 
-```
+```golang
 func run(ipChan chan<- *models.IP) {
-	var wg sync.WaitGroup
-	funs := []func() []*models.IP{
-		getter.Data5u,
-		getter.IP66,
-		getter.KDL,
-		getter.GBJ,
-		getter.Xici,
-		getter.XDL,
-		//getter.IP181,
-		//getter.YDL,
-		getter.PLP,
-	}
+    var wg sync.WaitGroup
+    funs := []func() []*models.IP{
+        getter.Data5u,
+        getter.IP66,
+        getter.KDL,
+        getter.GBJ,
+        getter.Xici,
+        getter.XDL,
+        //getter.IP181,
+        //getter.YDL,
+        getter.PLP,
+    }
     ...
 }
 ```

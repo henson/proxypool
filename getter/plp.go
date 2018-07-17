@@ -3,8 +3,8 @@ package getter
 import (
 	"github.com/go-clog/clog"
 
-	"github.com/henson/proxypool/pkg/models"
 	"github.com/Aiicy/htmlquery"
+	"github.com/henson/proxypool/pkg/models"
 )
 
 //PLP get ip from proxylistplus.com
@@ -21,20 +21,20 @@ func PLP() (result []*models.IP) {
 		port := htmlquery.InnerText(tdNode[2])
 		Type := htmlquery.InnerText(tdNode[6])
 
-		Ip := models.NewIP()
-		Ip.Data = ip + ":" + port
+		IP := models.NewIP()
+		IP.Data = ip + ":" + port
 
 		if Type == "yes" {
-			Ip.Type1 = "http"
-			Ip.Type2 = "https"
+			IP.Type1 = "http"
+			IP.Type2 = "https"
 
 		} else if Type == "no" {
-			Ip.Type1 = "http"
+			IP.Type1 = "http"
 		}
 
-		clog.Info("[PLP] ip.Data = %s,ip.Type = %s,%s", Ip.Data, Ip.Type1, Ip.Type2)
+		clog.Info("[PLP] ip.Data = %s,ip.Type = %s,%s", IP.Data, IP.Type1, IP.Type2)
 
-		result = append(result, Ip)
+		result = append(result, IP)
 	}
 
 	clog.Info("PLP done.")
