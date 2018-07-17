@@ -7,7 +7,7 @@
 ## 版本更新
 
 - 2018年7月17日 v2.0 感谢 [@sndnvaps](https://github.com/sndnvaps)
-	- 使用 xorm 来处理数据库，支持 mysql, postgres 和 sqlite3
+	- 使用 xorm 来处理数据库，支持 mysql、mssql、postgres 和 sqlite3
 	- 更新相应爬虫程序
 	- 加入日志
 - 2017年3月30日 v1.0 

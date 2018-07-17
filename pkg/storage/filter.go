@@ -40,9 +40,8 @@ func CheckIP(ip *models.IP) bool {
 
 // CheckProxyDB to check the ip in DB
 func CheckProxyDB() {
-
 	x := models.CountIPs()
-	clog.Info("Before check, DB has:", x, "records.")
+	clog.Info("Before check, DB has: %d records.", x)
 	ips, err := models.GetAll()
 	if err != nil {
 		clog.Warn(err.Error())
@@ -60,7 +59,7 @@ func CheckProxyDB() {
 	}
 	wg.Wait()
 	x = models.CountIPs()
-	clog.Info("After check, DB has:", x, "records.")
+	clog.Info("After check, DB has: %d records.", x)
 }
 
 // ProxyRandom .
