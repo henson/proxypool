@@ -4,12 +4,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/henson/proxypool/pkg/models"
-	"github.com/henson/proxypool/pkg/setting"
-	"github.com/henson/proxypool/pkg/util"
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
 	"github.com/go-xorm/xorm"
+	"github.com/henson/proxypool/pkg/models"
+	"github.com/henson/proxypool/pkg/setting"
+	"github.com/henson/proxypool/pkg/util"
 )
 
 // GlobalInit is for global configuration reload-able.
@@ -30,11 +30,12 @@ func GlobalInit() {
 		clog.Info("SQLite3 Supported")
 	}
 	if !setting.InstallLock {
-		InitialDatabase()
+		Database()
 	}
 }
 
-func InitialDatabase() {
+// Database .
+func Database() {
 	//Set test engine
 	var x *xorm.Engine
 	if err := models.NewTestEngine(x); err != nil {

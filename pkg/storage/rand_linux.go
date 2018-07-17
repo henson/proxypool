@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-//get the random number in [min, max]
+//RandInt64 get the random number in [min, max]
 func RandInt64(min, max int64) int64 {
 	if min >= max || max == 0 {
 		return max
@@ -17,7 +17,7 @@ func RandInt64(min, max int64) int64 {
 	return x
 }
 
-//get the random numer in [min, max]
+//RandInt get the random numer in [min, max]
 func RandInt(min, max int) int {
 	if min >= max || max == 0 {
 		return max

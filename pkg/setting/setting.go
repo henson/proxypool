@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/henson/proxypool/pkg/util"
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
+	"github.com/henson/proxypool/pkg/util"
 )
 
 var (
@@ -198,6 +198,7 @@ func newLogService() {
 	}
 }
 
+// NewServices .
 func NewServices() {
 	newLogService()
 }

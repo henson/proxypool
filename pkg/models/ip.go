@@ -34,6 +34,7 @@ func countIps() int64 {
 	return count
 }
 
+// CountIPs .
 func CountIPs() int64 {
 	return countIps()
 }
@@ -46,6 +47,7 @@ func deleteIP(ip *IP) error {
 	return nil
 }
 
+// DeleteIP .
 func DeleteIP(ip *IP) error {
 	return deleteIP(ip)
 }
@@ -61,6 +63,7 @@ func getOne(ip string) *IP {
 
 }
 
+// GetOne .
 func GetOne(ip string) *IP {
 	return getOne(ip)
 }
@@ -74,6 +77,7 @@ func getAll() ([]*IP, error) {
 	return tmpIp, nil
 }
 
+// GetAll .
 func GetAll() ([]*IP, error) {
 	return getAll()
 }
@@ -98,6 +102,7 @@ func findAll(value string) ([]*IP, error) {
 	return tmpIp, nil
 }
 
+// FindAll .
 func FindAll(value string) ([]*IP, error) {
 	return findAll(value)
 }
@@ -110,6 +115,7 @@ func update(ip IP) error {
 	return nil
 }
 
+// Update .
 func Update(ip IP) error {
 	return update(ip)
 }

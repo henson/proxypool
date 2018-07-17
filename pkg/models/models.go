@@ -9,11 +9,11 @@ import (
 	"path"
 	"strings"
 
-	"github.com/henson/proxypool/pkg/setting"
 	"github.com/go-clog/clog"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+	"github.com/henson/proxypool/pkg/setting"
 	_ "github.com/lib/pq"
 )
 
@@ -34,8 +34,9 @@ type Engine interface {
 }
 
 var (
-	x         *xorm.Engine
-	tables    []interface{}
+	x      *xorm.Engine
+	tables []interface{}
+	// HasEngine .
 	HasEngine bool
 
 	DbCfg struct {
@@ -54,6 +55,7 @@ func init() {
 
 }
 
+// LoadDatabaseInfo .
 func LoadDatabaseInfo() {
 	sec := setting.Cfg.Section("database")
 	DbCfg.Type = sec.Key("DB_TYPE").String()
@@ -108,7 +110,7 @@ func parseMSSQLHostPort(info string) (string, string) {
 
 func getEngine() (*xorm.Engine, error) {
 	connStr := ""
-	var Param string = "?"
+	Param := "?"
 	if strings.Contains(DbCfg.Name, Param) {
 		Param = "&"
 	}
@@ -135,7 +137,7 @@ func getEngine() (*xorm.Engine, error) {
 		connStr = fmt.Sprintf("server=%s; port=%s; database=%s; user id=%s; password=%s;", host, port, DbCfg.Name, DbCfg.User, DbCfg.Passwd)
 	case "sqlite3":
 		if !EnableSQLite3 {
-			return nil, errors.New("This binary version does not build support for SQLite3.")
+			return nil, errors.New("this binary version does not build support for SQLite3")
 		}
 		if err := os.MkdirAll(path.Dir(DbCfg.Path), os.ModePerm); err != nil {
 			return nil, fmt.Errorf("Fail to create directories: %v", err)
@@ -147,6 +149,7 @@ func getEngine() (*xorm.Engine, error) {
 	return xorm.NewEngine(DbCfg.Type, connStr)
 }
 
+// NewTestEngine .
 func NewTestEngine(x *xorm.Engine) (err error) {
 	x, err = getEngine()
 	if err != nil {
@@ -157,6 +160,7 @@ func NewTestEngine(x *xorm.Engine) (err error) {
 	return x.StoreEngine("InnoDB").Sync2(tables...)
 }
 
+// SetEngine .
 func SetEngine() (err error) {
 	x, err = getEngine()
 	if err != nil {
@@ -188,13 +192,14 @@ func SetEngine() (err error) {
 	return nil
 }
 
+// NewEngine .
 func NewEngine() (err error) {
 	if err = SetEngine(); err != nil {
 		return err
 	}
 
 	if err = x.StoreEngine("InnoDB").Sync2(tables...); err != nil {
-		return fmt.Errorf("sync database struct error: %v\n", err)
+		return fmt.Errorf("sync database struct error: %v", err)
 	}
 
 	return nil

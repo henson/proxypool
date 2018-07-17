@@ -41,11 +41,7 @@ func Sha1f(filename string) (string, error) {
 	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
-/*
- * @functional 读取文件
- * @param string path 文件路径
- * @return bool
- */
+// ReadFile 读取文件
 func ReadFile(path string) string {
 	fi, err := os.Open(path)
 	if err != nil {

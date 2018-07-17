@@ -29,8 +29,8 @@ func IP66() (result []*models.IP) {
 	}
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
-	body_ips := string(body)
-	ips := ExprIP.FindAllString(body_ips, 100)
+	bodyIPs := string(body)
+	ips := ExprIP.FindAllString(bodyIPs, 100)
 
 	for index := 0; index < len(ips); index++ {
 		ip := models.NewIP()
