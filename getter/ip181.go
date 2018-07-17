@@ -19,9 +19,9 @@ type ip181 struct {
 
 // Result struct
 type Result struct {
-	Postion string `json:"position"`
-	Port    string `json:"port"`
-	IP      string `json:"ip"`
+	Position string `json:"position"`
+	Port     string `json:"port"`
+	IP       string `json:"ip"`
 }
 
 // IP181 get ip from ip181.com
