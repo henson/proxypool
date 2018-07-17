@@ -4,8 +4,8 @@ import (
 	"log"
 	"strings"
 
+	"github.com/Aiicy/ProxyPool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/henson/ProxyPool/models"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -38,7 +38,7 @@ func YDL() (result []*models.IP) {
 		ip := models.NewIP()
 		c := strings.Split(s.Text(), "@")
 		ip.Data = c[0]
-		ip.Type = strings.ToLower(strings.Split(c[1], "#")[0])
+		ip.Type1 = strings.ToLower(strings.Split(c[1], "#")[0])
 		result = append(result, ip)
 	})
 	log.Println("YDL done.")

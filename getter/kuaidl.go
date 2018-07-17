@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Aiicy/ProxyPool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/henson/ProxyPool/models"
 	"github.com/nladuo/go-phantomjs-fetcher"
 )
 
@@ -46,7 +46,7 @@ func KDL() (result []*models.IP) {
 			hh, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(4)").Html()
 			ip := models.NewIP()
 			ip.Data = sf + ":" + ff
-			ip.Type = strings.ToLower(hh)
+			ip.Type1 = strings.ToLower(hh)
 			result = append(result, ip)
 		})
 	}

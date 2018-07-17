@@ -6,16 +6,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/henson/ProxyPool/api"
-	"github.com/henson/ProxyPool/getter"
-	"github.com/henson/ProxyPool/models"
-	"github.com/henson/ProxyPool/storage"
+	"github.com/Aiicy/ProxyPool/api"
+	"github.com/Aiicy/ProxyPool/getter"
+	"github.com/Aiicy/ProxyPool/pkg/initial"
+	"github.com/Aiicy/ProxyPool/pkg/models"
+	"github.com/Aiicy/ProxyPool/pkg/storage"
 )
 
 func main() {
+
+	//init the database
+	initial.GlobalInit()
+
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	ipChan := make(chan *models.IP, 2000)
-	conn := storage.NewStorage()
 
 	// Start HTTP
 	go func() {
@@ -38,8 +42,8 @@ func main() {
 
 	// Start getters to scraper IP and put it in channel
 	for {
-		x := conn.Count()
-		log.Printf("Chan: %v, IP: %v\n", len(ipChan), x)
+		n := models.CountIPs()
+		log.Printf("Chan: %v, IP: %v\n", len(ipChan), n)
 		if len(ipChan) < 100 {
 			go run(ipChan)
 		}
@@ -50,12 +54,12 @@ func main() {
 func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
 	funs := []func() []*models.IP{
-		getter.Data5u,
+		//getter.Data5u,
 		getter.IP66,
-		getter.KDL,
-		getter.GBJ,
-		getter.Xici,
-		getter.XDL,
+		//getter.KDL,
+		//getter.GBJ, //因为网站限制，无法正常下载数据
+		//getter.Xici,
+		//getter.XDL,
 		getter.IP181,
 		//getter.YDL,		//失效的采集脚本，用作系统容错实验
 		getter.PLP,

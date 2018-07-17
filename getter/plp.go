@@ -1,46 +1,42 @@
 package getter
 
 import (
-	"log"
-	"strconv"
-	"strings"
+	"github.com/go-clog/clog"
 
-	"github.com/PuerkitoBio/goquery"
-	"github.com/henson/ProxyPool/models"
-	"github.com/parnurzeal/gorequest"
+	"github.com/Aiicy/ProxyPool/pkg/models"
+	"github.com/Aiicy/htmlquery"
 )
 
 //PLP get ip from proxylistplus.com
 func PLP() (result []*models.IP) {
 	pollURL := "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1"
-	_, body, errs := gorequest.New().Get(pollURL).End()
-	if errs != nil {
-		log.Println(errs)
-		return
-	}
-	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
+	doc, _ := htmlquery.LoadURL(pollURL)
+	trNode, err := htmlquery.Find(doc, "//div[@class='hfeed site']//table[@class='bg']//tbody//tr")
 	if err != nil {
-		log.Println(err.Error())
-		return
+		clog.Warn(err.Error())
 	}
-	doc.Find("#page > table.bg > tbody > tr").Each(func(i int, s *goquery.Selection) {
-		node := strconv.Itoa(i + 1)
-		ss, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(2)").Html()
-		sss, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(3)").Html()
-		ssss, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(7)").Html()
-		if ssss == "yes" {
-			ssss = "http,https"
-		} else if ssss == "no" {
-			ssss = "http"
+	for i := 3; i < len(trNode); i++ {
+		tdNode, _ := htmlquery.Find(trNode[i], "//td")
+		ip := htmlquery.InnerText(tdNode[1])
+		port := htmlquery.InnerText(tdNode[2])
+		Type := htmlquery.InnerText(tdNode[6])
+
+		Ip := models.NewIP()
+		Ip.Data = ip + ":" + port
+
+		if Type == "yes" {
+			Ip.Type1 = "http"
+			Ip.Type2 = "https"
+
+		} else if Type == "no" {
+			Ip.Type1 = "http"
 		}
-		ip := models.NewIP()
-		ip.Data = ss + ":" + sss
-		ip.Type = ssss
-		result = append(result, ip)
-	})
-	if len(result) > 0 {
-		result = result[2:]
+
+		clog.Info("[PLP] ip.Data = %s,ip.Type = %s,%s", Ip.Data, Ip.Type1, Ip.Type2)
+
+		result = append(result, Ip)
 	}
-	log.Println("PLP done.")
+
+	clog.Info("PLP done.")
 	return
 }

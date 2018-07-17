@@ -1,33 +1,45 @@
 package getter
 
 import (
+	"io/ioutil"
 	"log"
+	"net/http"
+	"regexp"
 	"strings"
 
-	"github.com/henson/ProxyPool/models"
-	"github.com/parnurzeal/gorequest"
+	"github.com/go-clog/clog"
+
+	"github.com/Aiicy/ProxyPool/pkg/models"
 )
 
 // IP66 get ip from 66ip.cn
 func IP66() (result []*models.IP) {
+	var ExprIP = regexp.MustCompile(`((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\:([0-9]+)`)
+
 	pollURL := "http://www.66ip.cn/mo.php?tqsl=100"
-	_, body, errs := gorequest.New().Get(pollURL).End()
-	if errs != nil {
-		log.Println(errs)
+	resp, err := http.Get(pollURL)
+	if err != nil {
+		log.Println(err)
 		return
 	}
-	body = strings.Split(body, "var sogou_ad_width=960;")[1]
-	body = strings.Split(body, "</script>")[1]
-	body = strings.Split(body, "</div>")[0]
-	body = strings.TrimSpace(body)
-	body = strings.Replace(body, "	", "", -1)
-	temp := strings.Split(body, "<br />")
-	for index := 0; index < len(temp[:len(temp)-1]); index++ {
+
+	if resp.StatusCode != 200 {
+		log.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	body_ips := string(body)
+	ips := ExprIP.FindAllString(body_ips, 100)
+
+	for index := 0; index < len(ips); index++ {
 		ip := models.NewIP()
-		ip.Data = strings.TrimSpace(temp[index])
-		ip.Type = "http"
+		ip.Data = strings.TrimSpace(ips[index])
+		ip.Type1 = "http"
+		clog.Info("[IP66] ip = %s, type = %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	}
-	log.Println("IP66 done.")
+
+	clog.Info("IP66 done.")
 	return
 }
