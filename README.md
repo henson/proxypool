@@ -1,4 +1,4 @@
-[![Travis Status for henson/ProxyPool](https://travis-ci.org/henson/ProxyPool.svg?branch=master)](https://travis-ci.org/henson/ProxyPool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
+[![Travis Status for henson/proxypool](https://travis-ci.org/henson/proxypool.svg?branch=master)](https://travis-ci.org/henson/proxypool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
 
 # Golang实现的IP代理池
 
