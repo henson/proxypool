@@ -9,7 +9,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/Henson/ProxyPool/pkg/setting"
+	"github.com/henson/proxypool/pkg/setting"
 	"github.com/go-clog/clog"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"

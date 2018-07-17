@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-clog/clog"
 
-	"github.com/Henson/ProxyPool/pkg/models"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"
 )
 

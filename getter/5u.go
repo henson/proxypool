@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/Henson/ProxyPool/pkg/models"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/parnurzeal/gorequest"
 )

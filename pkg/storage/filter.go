@@ -3,7 +3,7 @@ package storage
 import (
 	"sync"
 
-	"github.com/Henson/ProxyPool/pkg/models"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/go-clog/clog"
 	"github.com/parnurzeal/gorequest"
 )

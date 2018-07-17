@@ -4,9 +4,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Henson/ProxyPool/pkg/models"
-	"github.com/Henson/ProxyPool/pkg/setting"
-	"github.com/Henson/ProxyPool/pkg/util"
+	"github.com/henson/proxypool/pkg/models"
+	"github.com/henson/proxypool/pkg/setting"
+	"github.com/henson/proxypool/pkg/util"
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
 	"github.com/go-xorm/xorm"

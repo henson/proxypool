@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Henson/ProxyPool/pkg/util"
+	"github.com/henson/proxypool/pkg/util"
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
 )

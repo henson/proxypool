@@ -1,4 +1,4 @@
-[![Travis Status for henson/ProxyPool](https://travis-ci.org/henson/ProxyPool.svg?branch=master)](https://travis-ci.org/henson/ProxyPool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/ProxyPool)](https://goreportcard.com/report/github.com/henson/ProxyPool)
+[![Travis Status for henson/ProxyPool](https://travis-ci.org/henson/ProxyPool.svg?branch=master)](https://travis-ci.org/henson/ProxyPool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
 
 # Golang实现的IP代理池
 
@@ -150,7 +150,7 @@ github.com/nladuo/go-phantomjs-fetcher
 
 下载本项目：
 ```
-go get -u github.com/henson/ProxyPool
+go get -u github.com/henson/proxypool
 ```
 
 然后配置好相应的app.ini并启动：
