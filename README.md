@@ -6,7 +6,7 @@
 
 ## 版本更新
 
-- 2017年7月17日 v2.0 感谢 [@sndnvaps](https://github.com/sndnvaps)
+- 2018年7月17日 v2.0 感谢 [@sndnvaps](https://github.com/sndnvaps)
 	- 使用 xorm 来处理数据库，支持 mysql, postgres 和 sqlite3
 	- 更新相应爬虫程序
 	- 加入日志
@@ -59,7 +59,7 @@
 
 　　存放一些公共的模块、方法或函数；
 
-* 其他文件：
+* 其他：
 
 　　配置文件:conf/app.ini，数据库、日志配置和代理获取接口配置；
 
