@@ -6,14 +6,15 @@ type IP struct {
 	Data  string `xorm:"NOT NULL" json:"ip"`
 	Type1 string `xorm:"NOT NULL" json:"type1"`
 	Type2 string `xorm:"NULL" json:"type2,omitempty"`
+	Speed int64  `xorm:"NOT NULL" json:"speed,omitempty"`
 }
 
 // NewIP .
 func NewIP() *IP {
-	return &IP{}
+	return &IP{Speed: 999999}
 }
 
-// SaveIps save ips info to database
+//InsertIps SaveIps save ips info to database
 func InsertIps(ip *IP) (err error) {
 
 	ses := x.NewSession()
@@ -70,7 +71,8 @@ func GetOne(ip string) *IP {
 
 func getAll() ([]*IP, error) {
 	tmpIp := make([]*IP, 0)
-	err := x.Find(&tmpIp)
+
+	err := x.Where("speed <= 1000").Find(&tmpIp)
 	if err != nil {
 		return nil, err
 	}
@@ -86,12 +88,12 @@ func findAll(value string) ([]*IP, error) {
 	tmpIp := make([]*IP, 0)
 	switch value {
 	case "http":
-		err := x.Where("type1=?", "http").Find(&tmpIp)
+		err := x.Where("speed <= 1000 and type1=?", "http").Find(&tmpIp)
 		if err != nil {
 			return tmpIp, err
 		}
 	case "https":
-		err := x.Where("type2=?", "https").Find(&tmpIp)
+		err := x.Where("speed <= 1000 and type2=?", "https").Find(&tmpIp)
 		if err != nil {
 			return tmpIp, err
 		}
