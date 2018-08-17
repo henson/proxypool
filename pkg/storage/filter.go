@@ -2,9 +2,11 @@ package storage
 
 import (
 	"sync"
+	"time"
 
-	"github.com/henson/proxypool/pkg/models"
+	sj "github.com/bitly/go-simplejson"
 	"github.com/go-clog/clog"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -27,12 +29,26 @@ func CheckIP(ip *models.IP) bool {
 		pollURL = "http://httpbin.org/get"
 	}
 	//fmt.Println(testIP)
+	begin := time.Now()
 	resp, _, errs := gorequest.New().Proxy(testIP).Get(pollURL).End()
 	if errs != nil {
 		clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, errs)
 		return false
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode == 200 {
+		//harrybi 20180815 判断返回的数据格式合法性
+		_, err := sj.NewFromReader(resp.Body)
+		if err != nil {
+			clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, err)
+			return false
+		}
+		//harrybi 计算该代理的速度，单位毫秒
+		ip.Speed = time.Now().Sub(begin).Nanoseconds() / 1000 / 1000 //ms
+		if err = models.Update(*ip); err != nil {
+			clog.Warn("[CheckIP] Update IP = %v Error = %v", *ip, err)
+		}
+
 		return true
 	}
 	return false
