@@ -6,6 +6,9 @@
 
 ## 版本更新
 
+- 2018年8月17日 v2.1 感谢 [@harrybi](https://github.com/harrybi)
+  - 对代理可用性的验证，增加speed字段，验证代理的速度（毫秒）
+  - 调用API获取代理IP时自动过滤掉慢的代理（>=1s）
 - 2018年7月17日 v2.0 感谢 [@sndnvaps](https://github.com/sndnvaps)
   - 使用 xorm 来处理数据库，支持 mysql、mssql、postgres 和 sqlite3
   - 更新相应爬虫程序
