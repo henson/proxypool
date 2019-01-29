@@ -11,6 +11,7 @@ import (
 
 	"github.com/go-clog/clog"
 	_ "github.com/go-sql-driver/mysql"
+        _ "github.com/mattn/go-sqlite3"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
 	"github.com/henson/proxypool/pkg/setting"
@@ -62,6 +63,7 @@ func LoadDatabaseInfo() {
 	switch DbCfg.Type {
 	case "sqlite3":
 		setting.UseSQLite3 = true
+                EnableSQLite3 = true
 	case "mysql":
 		setting.UseMySQL = true
 	case "postgres":
@@ -76,7 +78,7 @@ func LoadDatabaseInfo() {
 		DbCfg.Passwd = sec.Key("PASSWD").String()
 	}
 	DbCfg.SSLMode = sec.Key("SSL_MODE").String()
-	DbCfg.Path = sec.Key("PATH").MustString("data/align.db")
+	DbCfg.Path = sec.Key("PATH").MustString("data/ProxyPool.db")
 }
 
 // parsePostgreSQLHostPort parses given input in various forms defined in
