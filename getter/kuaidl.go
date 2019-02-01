@@ -1,55 +1,39 @@
 package getter
 
-import (
-	"log"
-	"strconv"
-	"strings"
-
+import (	
+	"github.com/go-clog/clog"
+	"github.com/Aiicy/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/nladuo/go-phantomjs-fetcher"
+		
 )
 
 // KDL get ip from kuaidaili.com
 func KDL() (result []*models.IP) {
-	pollURL := "http://www.kuaidaili.com/proxylist/"
-	//create a fetcher which seems to a httpClient
-	fetcher, err := phantomjs.NewFetcher(2016, nil)
-	defer fetcher.ShutDownPhantomJSServer()
+	pollURL := "http://www.kuaidaili.com/free/inha/"
+	doc,_ := htmlquery.LoadURL(pollURL)
+	trNode, err := htmlquery.Find(doc, "//table[@class='table.table-bordered.table-striped']//tbody//tr")
 	if err != nil {
-		log.Println(err.Error())
-		return
+	clog.Warn(err.Error())
 	}
-	//inject the javascript you want to run in the webpage just like in chrome console.
-	jsScript := "function() {s=document.documentElement.outerHTML;document.write('<body></body>');document.body.innerText=s;}"
-	//run the injected js_script at the end of loading html
-	jsRunAt := phantomjs.RUN_AT_DOC_END
-	//send httpGet request with injected js
-
-	for i := 1; i <= 10; i++ {
-		resp, err := fetcher.GetWithJS(pollURL+strconv.Itoa(i), jsScript, jsRunAt)
-		if err != nil {
-			log.Println(err.Error())
-			return
+	for i := 0; i < len(trNode); i++ {
+		tdNode, _ := htmlquery.Find(trNode[i],"//td")
+		ip := htmlquery.InnerText(tdNode[0])
+		port := htmlquery.InnerText(tdNode[1])
+		Type := htmlquery.InnerText(tdNode[3])
+		speed := htmlquery.InnerText(tdNode[5])
+		
+		IP := models.NewIP()
+		IP.Data = ip + ":" + port
+		if Type == "HTTPS" {
+			IP.Type1 = ""
+			IP.Type2 = "https"
+		} else if Type == "HTTP" {
+			IP.Type1 = "http"
 		}
-
-		//select search results by goquery
-		doc, err := goquery.NewDocumentFromReader(strings.NewReader(resp.Content))
-		if err != nil {
-			log.Println(err.Error())
-			return
-		}
-		doc.Find("#index_free_list > table > tbody > tr").Each(func(i int, s *goquery.Selection) {
-			node := strconv.Itoa(i + 1)
-			sf, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(1)").Html()
-			ff, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(2)").Html()
-			hh, _ := s.Find("tr:nth-child(" + node + ") > td:nth-child(4)").Html()
-			ip := models.NewIP()
-			ip.Data = sf + ":" + ff
-			ip.Type1 = strings.ToLower(hh)
-			result = append(result, ip)
-		})
+	IP.Speed = extractSpeed(speed)
+	result = append(result, IP)
 	}
-	log.Println("KDL done.")
+
+	clog.Info("[kuaidaili] done")
 	return
 }

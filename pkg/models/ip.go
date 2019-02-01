@@ -11,7 +11,8 @@ type IP struct {
 
 // NewIP .
 func NewIP() *IP {
-	return &IP{Speed: 999999}
+	//init the speed to 100 Sec
+	return &IP{Speed: 100}
 }
 
 //InsertIps SaveIps save ips info to database
@@ -30,8 +31,8 @@ func InsertIps(ip *IP) (err error) {
 }
 
 func countIps() int64 {
-
-	count, _ := x.Where("id> ?", 0).Count(new(IP))
+	// set id >= 0, fix bug: when this is nothing in the database
+	count, _ := x.Where("id>= ?", 0).Count(new(IP))
 	return count
 }
 
