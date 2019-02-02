@@ -6,6 +6,11 @@
 
 ## 版本更新
 
+- 2019年2月2日 v2.2 感谢 [@sndnvaps](https://github.com/sndnvaps)
+  - 添加MAC Darwin平台的支持
+  - 添加完全的 sqlite3 支持
+  - 添加新代理平台【feiyi，89ip】
+  - fix一个bug【当数据库中无数据时，不能写入数据】
 - 2018年8月17日 v2.1 感谢 [@harrybi](https://github.com/harrybi)
   - 对代理可用性的验证，增加speed字段，验证代理的速度（毫秒）
   - 调用API获取代理IP时自动过滤掉慢的代理（>=1s）
