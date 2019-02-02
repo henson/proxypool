@@ -1,9 +1,9 @@
 package storage
 
 import (
+	//"fmt"
 	"sync"
 	"time"
-
 	sj "github.com/bitly/go-simplejson"
 	"github.com/go-clog/clog"
 	"github.com/henson/proxypool/pkg/models"
@@ -28,13 +28,14 @@ func CheckIP(ip *models.IP) bool {
 		testIP = "http://" + ip.Data
 		pollURL = "http://httpbin.org/get"
 	}
-	//fmt.Println(testIP)
+	clog.Info(testIP)
 	begin := time.Now()
 	resp, _, errs := gorequest.New().Proxy(testIP).Get(pollURL).End()
 	if errs != nil {
 		clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, errs)
 		return false
 	}
+	
 	defer resp.Body.Close()
 	if resp.StatusCode == 200 {
 		//harrybi 20180815 判断返回的数据格式合法性
@@ -83,7 +84,8 @@ func ProxyRandom() (ip *models.IP) {
 
 	ips, err := models.GetAll()
 	x := len(ips)
-	if err != nil {
+	clog.Warn("len(ips) = %d",x)
+	if (err != nil || x == 0) {
 		clog.Warn(err.Error())
 		return models.NewIP()
 	}
@@ -96,7 +98,7 @@ func ProxyRandom() (ip *models.IP) {
 func ProxyFind(value string) (ip *models.IP) {
 	ips, err := models.FindAll(value)
 	x := len(ips)
-	if err != nil {
+	if (err != nil || x == 0){
 		clog.Warn(err.Error())
 		return models.NewIP()
 	}
