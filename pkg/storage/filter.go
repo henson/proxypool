@@ -97,11 +97,12 @@ func ProxyRandom() (ip *models.IP) {
 // ProxyFind .
 func ProxyFind(value string) (ip *models.IP) {
 	ips, err := models.FindAll(value)
-	x := len(ips)
-	if (err != nil || x == 0){
+	if (err != nil){
 		clog.Warn(err.Error())
 		return models.NewIP()
 	}
+	x := len(ips)
+	clog.Warn("x = %d",x)
 	randomNum := RandInt(0, x)
 	clog.Info("[proxyFind] random num = %d", randomNum)
 	if randomNum == 0 {

@@ -22,6 +22,7 @@ import (
 type Engine interface {
 	Delete(interface{}) (int64, error)
 	Exec(string, ...interface{}) (sql.Result, error)
+	Exist(...interface{}) (bool,error)
 	Find(interface{}, ...interface{}) error
 	Get(interface{}) (bool, error)
 	Id(interface{}) *xorm.Session
@@ -29,6 +30,7 @@ type Engine interface {
 	Insert(...interface{}) (int64, error)
 	InsertOne(interface{}) (int64, error)
 	Iterate(interface{}, xorm.IterFunc) error
+	Query(string, ...interface{}) (sql.Result, error)
 	Sql(string, ...interface{}) *xorm.Session
 	Table(interface{}) *xorm.Session
 	Where(interface{}, ...interface{}) *xorm.Session

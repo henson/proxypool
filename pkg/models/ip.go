@@ -1,5 +1,9 @@
 package models
 
+import (
+ "fmt"
+)
+
 // IP struct
 type IP struct {
 	ID    int64  `xorm:"pk autoincr" json:"-"`
@@ -94,8 +98,14 @@ func findAll(value string) ([]*IP, error) {
 			return tmpIp, err
 		}
 	case "https":
+               //test has https proxy on databases or not 
+               HasHttps := TestHttps()
+               if HasHttps == false {
+                    return tmpIp,nil
+                 }
 		err := x.Where("speed <= 1000 and type2=?", "https").Find(&tmpIp)
 		if err != nil {
+            fmt.Println(err.Error())
 			return tmpIp, err
 		}
 	default:
@@ -122,3 +132,18 @@ func update(ip IP) error {
 func Update(ip IP) error {
 	return update(ip)
 }
+
+//Test if have https proxy in database
+//if just test on mysql
+// dbName: ProxyPool
+// dbTableName: ip
+// select distinct if(exists(select * from ip where type2='https'),1,0) as a from ip;
+func TestHttps() bool {
+        has, err := x.Exist(&IP{Type2: "https"})
+        if err != nil {
+		return false
+         }
+        
+        return has
+} 
+        
