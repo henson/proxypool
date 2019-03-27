@@ -134,7 +134,7 @@ func Update(ip IP) error {
 }
 
 //Test if have https proxy in database
-//if just test on mysql
+//just test on mysql database
 // dbName: ProxyPool
 // dbTableName: ip
 // select distinct if(exists(select * from ip where type2='https'),1,0) as a from ip;
