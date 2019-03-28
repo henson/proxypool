@@ -6,6 +6,8 @@
 
 ## 版本更新
 
+- 2019年3月28日 v2.3 感谢 [@sndnvaps](https://github.com/sndnvaps)
+  - 修复数据库中不存在https代理源的时候查询出错的问题。解决[问题#31](https://github.com/henson/proxypool/issues/31)
 - 2019年2月2日 v2.2 感谢 [@sndnvaps](https://github.com/sndnvaps)
   - 添加MAC Darwin平台的支持
   - 添加完全的 sqlite3 支持
