@@ -1,7 +1,21 @@
 language: go
+
+go_import_path: github.com/henson/proxypool
+
 go:
   - 1.8.x
+  - '1.12'
   - master
+
+env:
+  - GO111MODULE=on
+
+install:
+  - go get -t -v ./...
+
+script:
+  - go build
+
 notifications:
   recipients:
     - henson.lu@gmail.com
