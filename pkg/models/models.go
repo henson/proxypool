@@ -11,18 +11,18 @@ import (
 
 	"github.com/go-clog/clog"
 	_ "github.com/go-sql-driver/mysql"
-        _ "github.com/mattn/go-sqlite3"
-	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
 	"github.com/henson/proxypool/pkg/setting"
 	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
+	"xorm.io/core"
 )
 
 // Engine represents a XORM engine or session.
 type Engine interface {
 	Delete(interface{}) (int64, error)
 	Exec(string, ...interface{}) (sql.Result, error)
-	Exist(...interface{}) (bool,error)
+	Exist(...interface{}) (bool, error)
 	Find(interface{}, ...interface{}) error
 	Get(interface{}) (bool, error)
 	Id(interface{}) *xorm.Session
@@ -65,7 +65,7 @@ func LoadDatabaseInfo() {
 	switch DbCfg.Type {
 	case "sqlite3":
 		setting.UseSQLite3 = true
-                EnableSQLite3 = true
+		EnableSQLite3 = true
 	case "mysql":
 		setting.UseMySQL = true
 	case "postgres":
