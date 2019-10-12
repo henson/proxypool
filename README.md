@@ -4,6 +4,10 @@
 
 [![Travis Status for henson/proxypool](https://travis-ci.org/henson/proxypool.svg?branch=master)](https://travis-ci.org/henson/proxypool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/henson/proxypool.svg)](https://starchart.cc/henson/proxypool)
+
 ## 版本更新
 
 - 2019年3月28日 v2.3 感谢 [@sndnvaps](https://github.com/sndnvaps)
