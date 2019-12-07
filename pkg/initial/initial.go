@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
-	"github.com/go-xorm/xorm"
+	"xorm.io/xorm"
 	"github.com/henson/proxypool/pkg/models"
 	"github.com/henson/proxypool/pkg/setting"
 	"github.com/henson/proxypool/pkg/util"
