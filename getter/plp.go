@@ -25,8 +25,8 @@ func PLP() (result []*models.IP) {
 		IP.Data = ip + ":" + port
 
 		if Type == "yes" {
-			IP.Type1 = "http"
-			IP.Type2 = "https"
+			IP.Type1 = "https"
+			IP.Type2 = ""
 
 		} else if Type == "no" {
 			IP.Type1 = "http"
