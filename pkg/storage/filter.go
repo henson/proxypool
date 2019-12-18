@@ -114,7 +114,14 @@ func ProxyFind(value string) (ip *models.IP) {
 
 // ProxyAdd .
 func ProxyAdd(ip *models.IP) {
-	models.InsertIps(ip)
+
+	//need to check Ip is in the database or not
+	// when temp.Data == "", we just insert the ip into db, or update it
+	if temp := models.GetOne(ip.Data); temp.Data == "" {
+		models.InsertIps(ip)
+	} else {
+		ProxyUpdate(ip)
+	}
 }
 
 // ProxyUpdate .
