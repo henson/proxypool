@@ -4,6 +4,7 @@ import (
 	//"fmt"
 	"sync"
 	"time"
+
 	sj "github.com/bitly/go-simplejson"
 	"github.com/go-clog/clog"
 	"github.com/henson/proxypool/pkg/models"
@@ -35,7 +36,7 @@ func CheckIP(ip *models.IP) bool {
 		clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, errs)
 		return false
 	}
-	
+
 	defer resp.Body.Close()
 	if resp.StatusCode == 200 {
 		//harrybi 20180815 判断返回的数据格式合法性
@@ -46,7 +47,7 @@ func CheckIP(ip *models.IP) bool {
 		}
 		//harrybi 计算该代理的速度，单位毫秒
 		ip.Speed = time.Now().Sub(begin).Nanoseconds() / 1000 / 1000 //ms
-		if err = models.Update(*ip); err != nil {
+		if err = models.Update(ip); err != nil {
 			clog.Warn("[CheckIP] Update IP = %v Error = %v", *ip, err)
 		}
 
@@ -84,8 +85,8 @@ func ProxyRandom() (ip *models.IP) {
 
 	ips, err := models.GetAll()
 	x := len(ips)
-	clog.Warn("len(ips) = %d",x)
-	if (err != nil || x == 0) {
+	clog.Warn("len(ips) = %d", x)
+	if err != nil || x == 0 {
 		clog.Warn(err.Error())
 		return models.NewIP()
 	}
@@ -97,12 +98,12 @@ func ProxyRandom() (ip *models.IP) {
 // ProxyFind .
 func ProxyFind(value string) (ip *models.IP) {
 	ips, err := models.FindAll(value)
-	if (err != nil){
+	if err != nil {
 		clog.Warn(err.Error())
 		return models.NewIP()
 	}
 	x := len(ips)
-	clog.Warn("x = %d",x)
+	clog.Warn("x = %d", x)
 	randomNum := RandInt(0, x)
 	clog.Info("[proxyFind] random num = %d", randomNum)
 	if randomNum == 0 {
@@ -114,6 +115,11 @@ func ProxyFind(value string) (ip *models.IP) {
 // ProxyAdd .
 func ProxyAdd(ip *models.IP) {
 	models.InsertIps(ip)
+}
+
+// ProxyUpdate .
+func ProxyUpdate(ip *models.IP) {
+	models.Update(ip)
 }
 
 // ProxyDel .

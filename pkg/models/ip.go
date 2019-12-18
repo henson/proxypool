@@ -1,22 +1,29 @@
 package models
 
 import (
- "fmt"
+	"fmt"
+	"time"
 )
 
 // IP struct
 type IP struct {
-	ID    int64  `xorm:"pk autoincr" json:"-"`
-	Data  string `xorm:"NOT NULL" json:"ip"`
-	Type1 string `xorm:"NOT NULL" json:"type1"`
-	Type2 string `xorm:"NULL" json:"type2,omitempty"`
-	Speed int64  `xorm:"NOT NULL" json:"speed,omitempty"`
+	ID         int64     `xorm:"pk autoincr" json:"-"`
+	Data       string    `xorm:"NOT NULL" json:"ip"`
+	Type1      string    `xorm:"NOT NULL" json:"type1"`
+	Type2      string    `xorm:"NULL" json:"type2,omitempty"`
+	Speed      int64     `xorm:"NOT NULL" json:"speed,omitempty"`
+	CreateTime time.Time `xorm:"NOT NULL" json:"-"`
+	UpdateTime time.Time `xorm:"NOT NULL" json:"-"`
 }
 
 // NewIP .
 func NewIP() *IP {
 	//init the speed to 100 Sec
-	return &IP{Speed: 100}
+	return &IP{
+		Speed:      100,
+		CreateTime: time.Now(),
+		UpdateTime: time.Now(),
+	}
 }
 
 //InsertIps SaveIps save ips info to database
@@ -98,14 +105,14 @@ func findAll(value string) ([]*IP, error) {
 			return tmpIp, err
 		}
 	case "https":
-               //test has https proxy on databases or not 
-               HasHttps := TestHttps()
-               if HasHttps == false {
-                    return tmpIp,nil
-                 }
+		//test has https proxy on databases or not
+		HasHttps := TestHttps()
+		if HasHttps == false {
+			return tmpIp, nil
+		}
 		err := x.Where("speed <= 1000 and type2=?", "https").Find(&tmpIp)
 		if err != nil {
-            fmt.Println(err.Error())
+			fmt.Println(err.Error())
 			return tmpIp, err
 		}
 	default:
@@ -120,16 +127,18 @@ func FindAll(value string) ([]*IP, error) {
 	return findAll(value)
 }
 
-func update(ip IP) error {
-	_, err := x.Id(1).Update(ip)
+func update(ip *IP) error {
+	tmp := ip
+	tmp.UpdateTime = time.Now()
+	_, err := x.Id(1).Update(tmp)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// Update .
-func Update(ip IP) error {
+// Update the Ip
+func Update(ip *IP) error {
 	return update(ip)
 }
 
@@ -139,11 +148,10 @@ func Update(ip IP) error {
 // dbTableName: ip
 // select distinct if(exists(select * from ip where type2='https'),1,0) as a from ip;
 func TestHttps() bool {
-        has, err := x.Exist(&IP{Type2: "https"})
-        if err != nil {
+	has, err := x.Exist(&IP{Type2: "https"})
+	if err != nil {
 		return false
-         }
-        
-        return has
-} 
-        
+	}
+
+	return has
+}
