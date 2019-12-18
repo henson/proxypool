@@ -130,7 +130,7 @@ func FindAll(value string) ([]*IP, error) {
 func update(ip *IP) error {
 	tmp := ip
 	tmp.UpdateTime = time.Now()
-	_, err := x.Id(1).Update(tmp)
+	_, err := x.ID(1).Update(tmp)
 	if err != nil {
 		return err
 	}
