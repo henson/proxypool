@@ -10,6 +10,12 @@
 
 ## 版本更新
 
+- 2019年12月18日 v2.4 感谢 [@sndnvaps](https://github.com/sndnvaps)
+  - 添加代理网站 ip3306, plp-ssl 两个
+  - 更新 数据库结构，添加创建时间和更新时间
+  - 更新 ip.go当中的Update(), x.Id()方法将会被x.ID()代替，所以直接更换为x.ID()
+  - 更新 在插入数据时先检查库中是否存在，如果存在就更新，不存在则插入到数据库
+  - 更新 https proxy api的相关参数
 - 2019年3月28日 v2.3 感谢 [@sndnvaps](https://github.com/sndnvaps)
   - 修复数据库中不存在https代理源的时候查询出错的问题。解决[问题#31](https://github.com/henson/proxypool/issues/31)
 - 2019年2月2日 v2.2 感谢 [@sndnvaps](https://github.com/sndnvaps)
