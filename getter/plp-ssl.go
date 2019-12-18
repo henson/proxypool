@@ -8,8 +8,8 @@ import (
 )
 
 //PLP get ip from proxylistplus.com
-func PLP() (result []*models.IP) {
-	pollURL := "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1"
+func PLPSSL() (result []*models.IP) {
+	pollURL := "https://list.proxylistplus.com/SSL-List-1"
 	doc, _ := htmlquery.LoadURL(pollURL)
 	trNode, err := htmlquery.Find(doc, "//div[@class='hfeed site']//table[@class='bg']//tbody//tr")
 	if err != nil {
@@ -32,11 +32,11 @@ func PLP() (result []*models.IP) {
 			IP.Type1 = "http"
 		}
 
-		clog.Info("[PLP] ip.Data = %s,ip.Type = %s,%s", IP.Data, IP.Type1, IP.Type2)
+		clog.Info("[PLP SSL] ip.Data = %s,ip.Type = %s,%s", IP.Data, IP.Type1, IP.Type2)
 
 		result = append(result, IP)
 	}
 
-	clog.Info("PLP done.")
+	clog.Info("PLP SSL done.")
 	return
 }
