@@ -8,7 +8,7 @@ import (
 // IP struct
 type IP struct {
 	ID         int64     `xorm:"pk autoincr" json:"-"`
-	Data       string    `xorm:"NOT NULL" json:"ip"`
+	Data       string    `xorm:"NOT NULL unique" json:"ip"`
 	Type1      string    `xorm:"NOT NULL" json:"type1"`
 	Type2      string    `xorm:"NULL" json:"type2,omitempty"`
 	Speed      int64     `xorm:"NOT NULL" json:"speed,omitempty"`
@@ -67,7 +67,8 @@ func DeleteIP(ip *IP) error {
 
 func getOne(ip string) *IP {
 	var tmpIp IP
-	result, _ := x.Where("data=?", ip).Get(tmpIp)
+	//只获取第一条记录
+	result, _ := x.Where("data=?", ip).Limit(0, 1).Get(tmpIp)
 	if result {
 		return &tmpIp
 	}
@@ -143,10 +144,10 @@ func Update(ip *IP) error {
 }
 
 //Test if have https proxy in database
-//just test on mysql database
+//just test on MySQL/Mariadb database
 // dbName: ProxyPool
 // dbTableName: ip
-// select distinct if(exists(select * from ip where type2='https'),1,0) as a from ip;
+// select distinct if(exists(select * from ProxyPool.ip where type1='https'),1,0) as a from ProxyPool.ip;
 func TestHttps() bool {
 	has, err := x.Exist(&IP{Type1: "https"})
 	if err != nil {
