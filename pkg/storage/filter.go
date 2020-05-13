@@ -24,10 +24,10 @@ func CheckIP(ip *models.IP) bool {
 	var testIP string
 	if ip.Type2 == "https" {
 		testIP = "https://" + ip.Data
-		pollURL = "https://httpbin.org/get"
+		pollURL = "https://ip138.com"
 	} else {
 		testIP = "http://" + ip.Data
-		pollURL = "http://httpbin.org/get"
+		pollURL = "http://ip138.com"
 	}
 	clog.Info(testIP)
 	begin := time.Now()
