@@ -84,10 +84,14 @@ func CheckProxyDB() {
 func ProxyRandom() (ip *models.IP) {
 
 	ips, err := models.GetAll()
+	if nil != err {
+		clog.Warn(err.Error())
+		return models.NewIP()
+	}
 	x := len(ips)
 	clog.Warn("len(ips) = %d", x)
-	if err != nil || x == 0 {
-		clog.Warn(err.Error())
+	if x == 0 {
+		clog.Warn("proxy pool len(ips) = 0")
 		return models.NewIP()
 	}
 	randomNum := RandInt(0, x)
