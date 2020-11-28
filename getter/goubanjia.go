@@ -6,9 +6,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/henson/proxypool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"
+	clog "unknwon.dev/clog/v2"
 )
 
 // GBJ get ip from goubanjia.com
@@ -40,10 +41,10 @@ func GBJ() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = re.ReplaceAllString(tee, "")
 		ip.Type1 = s.Find("td:nth-child(3) > a").Text()
-		fmt.Printf("ip.Data = %s , ip.Type = %s\n", ip.Data, ip.Type1)
+		clog.Info("ip.Data = %s , ip.Type = %s\n", ip.Data, ip.Type1)
 		result = append(result, ip)
 	})
 
-	log.Println("GBJ done.")
+	clog.Info("GBJ done.")
 	return
 }

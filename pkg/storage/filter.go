@@ -6,9 +6,9 @@ import (
 	"time"
 
 	sj "github.com/bitly/go-simplejson"
-	"github.com/go-clog/clog"
 	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"
+	clog "unknwon.dev/clog/v2"
 )
 
 // CheckProxy .

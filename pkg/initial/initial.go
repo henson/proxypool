@@ -4,24 +4,24 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
 	"github.com/go-xorm/xorm"
 	"github.com/henson/proxypool/pkg/models"
 	"github.com/henson/proxypool/pkg/setting"
 	"github.com/henson/proxypool/pkg/util"
+	clog "unknwon.dev/clog/v2"
 )
 
 // GlobalInit is for global configuration reload-able.
 func GlobalInit() {
 	setting.NewContext()
+	setting.NewLogService()
 	clog.Trace("Log path: %s", setting.LogRootPath)
 	models.LoadDatabaseInfo()
-	setting.NewServices()
 
 	if setting.InstallLock {
 		if err := models.NewEngine(); err != nil {
-			clog.Fatal(2, "Fail to initialize ORM engine: %v", err)
+			clog.Fatal("Fail to initialize ORM engine: %v", err)
 		}
 		models.HasEngine = true
 	}
@@ -39,14 +39,14 @@ func Database() {
 	//Set test engine
 	var x *xorm.Engine
 	if err := models.NewTestEngine(x); err != nil {
-		clog.Fatal(2, "Fail to set test ORM engine: %v", err)
+		clog.Fatal("Fail to set test ORM engine: %v", err)
 	}
 	// Save settings.
 	cfg := ini.Empty()
 	if util.IsFile(setting.ConfFile) {
 		// Keeps custom settings if there is already something.
 		if err := cfg.Append(setting.ConfFile); err != nil {
-			clog.Error(4, "Fail to load conf '%s': %v", setting.ConfFile, err)
+			clog.Error("Fail to load conf '%s': %v", setting.ConfFile, err)
 		}
 	}
 	// Save App name
@@ -73,7 +73,7 @@ func Database() {
 	// Save file setting
 	os.MkdirAll(filepath.Dir(setting.ConfFile), os.ModePerm)
 	if err := cfg.SaveTo(setting.ConfFile); err != nil {
-		clog.Fatal(2, "[Initial]Save config failed: %v", err)
+		clog.Fatal("[Initial]Save config failed: %v", err)
 	}
 	clog.Info("[Initial]Initialize database completed.")
 }

@@ -2,8 +2,8 @@ package getter
 
 import (
 	"github.com/Aiicy/htmlquery"
-	"github.com/go-clog/clog"
 	"github.com/henson/proxypool/pkg/models"
+	clog "unknwon.dev/clog/v2"
 )
 
 // KDL get ip from kuaidaili.com

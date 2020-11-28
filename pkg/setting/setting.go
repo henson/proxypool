@@ -9,9 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-clog/clog"
 	"github.com/go-ini/ini"
-	"github.com/henson/proxypool/pkg/util"
+	clog "unknwon.dev/clog/v2"
 )
 
 var (
@@ -58,11 +57,9 @@ func execPath() (string, error) {
 
 func init() {
 	IsWindows = runtime.GOOS == "windows"
-	clog.New(clog.CONSOLE, clog.ConsoleConfig{})
-
 	var err error
 	if AppPath, err = execPath(); err != nil {
-		clog.Fatal(2, "Fail to get app path: %v\n", err)
+		clog.Fatal("Fail to get app path: %v\n", err)
 	}
 
 	// Note: we don't use path.Dir here because it does not handle case
@@ -86,7 +83,7 @@ func WorkDir() (string, error) {
 
 func forcePathSeparator(path string) {
 	if strings.Contains(path, "\\") {
-		clog.Fatal(2, "Do not use '\\' or '\\\\' in paths, instead, please use '/' in all places")
+		clog.Fatal("Do not use '\\' or '\\\\' in paths, instead, please use '/' in all places")
 	}
 }
 
@@ -95,14 +92,14 @@ func forcePathSeparator(path string) {
 func NewContext() {
 	workDir, err := WorkDir()
 	if err != nil {
-		clog.Fatal(2, "Fail to get work directory: %v", err)
+		clog.Fatal("Fail to get work directory: %v", err)
 	}
 	ConfFile = path.Join(workDir, "conf/app.ini")
 
 	//Cfg, err = ini.Load("conf/example_app.ini")
 	Cfg, err = ini.Load(ConfFile)
 	if err != nil {
-		clog.Fatal(2, "Fail to parse %s: %v", ConfFile, err)
+		clog.Fatal("Fail to parse %s: %v", ConfFile, err)
 	}
 
 	Cfg.NameMapper = ini.AllCapsUnderscore
@@ -122,83 +119,9 @@ func NewContext() {
 	SessionExpires = sec.Key("SESSION_EXPIRES").MustDuration(time.Hour * 24 * 7)
 }
 
-func newLogService() {
-	// Because we always create a console logger as primary logger before all settings are loaded,
-	// thus if user doesn't set console logger, we should remove it after other loggers are created.
-	hasConsole := false
-
-	// Get the log mode.
-	if DebugMode {
-		LogModes = strings.Split("console", ",")
-	} else {
-		LogModes = strings.Split(Cfg.Section("log").Key("MODE").MustString("console"), ",")
+func NewLogService() {
+	err := clog.NewConsole()
+	if err != nil {
+		panic("unable to create new logger: " + err.Error())
 	}
-	LogConfigs = make([]interface{}, len(LogModes))
-	levelNames := map[string]clog.LEVEL{
-		"trace": clog.TRACE,
-		"info":  clog.INFO,
-		"warn":  clog.WARN,
-		"error": clog.ERROR,
-		"fatal": clog.FATAL,
-	}
-	for i, mode := range LogModes {
-		mode = strings.ToLower(strings.TrimSpace(mode))
-		sec, err := Cfg.GetSection("log." + mode)
-		if err != nil {
-			clog.Fatal(2, "Unknown logger mode: %s", mode)
-		}
-
-		validLevels := []string{"trace", "info", "warn", "error", "fatal"}
-		name := Cfg.Section("log." + mode).Key("LEVEL").Validate(func(v string) string {
-			v = strings.ToLower(v)
-			if util.IsSliceContainsStr(validLevels, v) {
-				return v
-			}
-			return "trace"
-		})
-		level := levelNames[name]
-
-		// Generate log configuration.
-		switch clog.MODE(mode) {
-		case clog.CONSOLE:
-			hasConsole = true
-			LogConfigs[i] = clog.ConsoleConfig{
-				Level:      level,
-				BufferSize: Cfg.Section("log").Key("BUFFER_LEN").MustInt64(100),
-			}
-
-		case clog.FILE:
-			logPath := path.Join(LogRootPath, "ProxyPool.log")
-			if err = os.MkdirAll(path.Dir(logPath), os.ModePerm); err != nil {
-				clog.Fatal(2, "Fail to create log directory '%s': %v", path.Dir(logPath), err)
-			}
-
-			LogConfigs[i] = clog.FileConfig{
-				Level:      level,
-				BufferSize: Cfg.Section("log").Key("BUFFER_LEN").MustInt64(100),
-				Filename:   logPath,
-				FileRotationConfig: clog.FileRotationConfig{
-					Rotate:   sec.Key("LOG_ROTATE").MustBool(true),
-					Daily:    sec.Key("DAILY_ROTATE").MustBool(true),
-					MaxSize:  1 << uint(sec.Key("MAX_SIZE_SHIFT").MustInt(28)),
-					MaxLines: sec.Key("MAX_LINES").MustInt64(1000000),
-					MaxDays:  sec.Key("MAX_DAYS").MustInt64(7),
-				},
-			}
-		}
-
-		clog.New(clog.MODE(mode), LogConfigs[i])
-		clog.Trace("Log Mode: %s (%s)", strings.Title(mode), strings.Title(name))
-	}
-
-	// Make sure everyone gets version info printed.
-	clog.Info("%s %s", AppName, AppVer)
-	if !hasConsole {
-		clog.Delete(clog.CONSOLE)
-	}
-}
-
-// NewServices .
-func NewServices() {
-	newLogService()
 }
