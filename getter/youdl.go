@@ -4,9 +4,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/henson/proxypool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"
+	clog "unknwon.dev/clog/v2"
 )
 
 // YDL get ip from youdaili.net
@@ -41,6 +42,6 @@ func YDL() (result []*models.IP) {
 		ip.Type1 = strings.ToLower(strings.Split(c[1], "#")[0])
 		result = append(result, ip)
 	})
-	log.Println("YDL done.")
+	clog.Info("YDL done.")
 	return
 }

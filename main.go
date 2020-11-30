@@ -55,7 +55,7 @@ func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
 	funs := []func() []*models.IP{
 		//getter.Data5u,
-		getter.Feiyi,
+		//getter.Feiyi,
 		getter.IP66, //need to remove it
 		getter.IP3306,
 		getter.KDL,

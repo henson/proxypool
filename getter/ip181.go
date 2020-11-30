@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/go-clog/clog"
+	clog "unknwon.dev/clog/v2"
 
 	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"

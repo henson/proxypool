@@ -1,12 +1,13 @@
 package getter
 
 import (
-	"github.com/go-clog/clog"
+	clog "unknwon.dev/clog/v2"
+
+	"regexp"
+	"strconv"
 
 	"github.com/Aiicy/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
-	"regexp"
-	"strconv"
 )
 
 //feiyi get ip from feiyiproxy.com
@@ -21,7 +22,7 @@ func Feiyi() (result []*models.IP) {
 		clog.Warn(err.Error())
 	}
 	//debug begin
-	clog.Info("[FEIYI] len(trNode) = %d ",len(trNode))
+	clog.Info("[FEIYI] len(trNode) = %d ", len(trNode))
 	for i := 1; i < len(trNode); i++ {
 		tdNode, _ := htmlquery.Find(trNode[i], "//td")
 		ip := htmlquery.InnerText(tdNode[0])
@@ -41,7 +42,7 @@ func Feiyi() (result []*models.IP) {
 		}
 		IP.Speed = extractSpeed(speed)
 
-		clog.Info("[FEIYI] ip.Data = %s,ip.Type = %s,%s ip.Speed = %d", IP.Data, IP.Type1, IP.Type2,IP.Speed)
+		clog.Info("[FEIYI] ip.Data = %s,ip.Type = %s,%s ip.Speed = %d", IP.Data, IP.Type1, IP.Type2, IP.Speed)
 
 		result = append(result, IP)
 	}
@@ -54,9 +55,8 @@ func extractSpeed(oritext string) int64 {
 	reg := regexp.MustCompile(`\[1-9\]\d\*\\.\?\d\*`)
 	temp := reg.FindString(oritext)
 	if temp != "" {
-	speed,_ := strconv.ParseInt(temp,10,64)
-	return speed
+		speed, _ := strconv.ParseInt(temp, 10, 64)
+		return speed
 	}
 	return -1
 }
-

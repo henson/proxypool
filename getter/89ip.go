@@ -3,12 +3,14 @@ package getter
 import (
 	"io/ioutil"
 	"net/http"
-	//"fmt"
-	"github.com/go-clog/clog"
 
-	"github.com/henson/proxypool/pkg/models"
+	//"fmt"
+	clog "unknwon.dev/clog/v2"
+
 	"regexp"
 	"strings"
+
+	"github.com/henson/proxypool/pkg/models"
 )
 
 //IP89 get ip from www.89ip.cn
@@ -16,7 +18,7 @@ func IP89() (result []*models.IP) {
 	clog.Info("89IP] start test")
 	var ExprIP = regexp.MustCompile(`((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\:([0-9]+)`)
 	pollURL := "http://www.89ip.cn/tqdl.html?api=1&num=100&port=&address=%E7%BE%8E%E5%9B%BD&isp="
-	
+
 	resp, err := http.Get(pollURL)
 	if err != nil {
 		clog.Warn(err.Error())
@@ -40,9 +42,6 @@ func IP89() (result []*models.IP) {
 		result = append(result, ip)
 	}
 
-	
-
 	clog.Info("89IP done.")
 	return
 }
-

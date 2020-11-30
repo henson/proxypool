@@ -5,8 +5,10 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/henson/proxypool/pkg/models"
+	clog "unknwon.dev/clog/v2"
+
 	"github.com/PuerkitoBio/goquery"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -42,6 +44,6 @@ func Data5u() (result []*models.IP) {
 		fmt.Printf("ip.Data = %s, ip.Type = %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	})
-	log.Println("Data5u done.")
+	clog.Info("Data5u done.")
 	return
 }

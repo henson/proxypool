@@ -155,7 +155,7 @@ INSTALL_LOCK = false
 
 另外，本项目用到的依赖库有：
 ```
-github.com/go-clog/clog
+clog "unknwon.dev/clog/v2"
 github.com/go-ini/ini
 github.com/go-xorm/xorm
 github.com/go-xorm/core
