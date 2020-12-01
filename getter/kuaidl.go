@@ -29,6 +29,7 @@ func KDL() (result []*models.IP) {
 		} else if Type == "HTTP" {
 			IP.Type1 = "http"
 		}
+		IP.Source = "KDL"
 		IP.Speed = extractSpeed(speed)
 		result = append(result, IP)
 	}

@@ -37,6 +37,7 @@ func IP3306() (result []*models.IP) {
 		} else if Type == "HTTP" {
 			IP.Type1 = "http"
 		}
+		IP.Source = "ip3366.net"
 		IP.Speed = extractSpeed(speed)
 
 		clog.Info("[IP3306] ip.Data = %s,ip.Type = %s,%s ip.Speed = %d", IP.Data, IP.Type1, IP.Type2, IP.Speed)

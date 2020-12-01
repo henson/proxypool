@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/henson/proxypool/pkg/models"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/henson/proxypool/pkg/models"
 	"github.com/nladuo/go-phantomjs-fetcher"
 )
 
@@ -41,6 +41,7 @@ func XDL() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = ss + ":" + sss
 		ip.Type1 = ssss
+		ip.Source = "xdl"
 		result = append(result, ip)
 	})
 	log.Println("XDL done.")

@@ -31,6 +31,7 @@ func PLPSSL() (result []*models.IP) {
 		} else if Type == "no" {
 			IP.Type1 = "http"
 		}
+		IP.Source = "plp-ssl"
 
 		clog.Info("[PLP SSL] ip.Data = %s,ip.Type = %s,%s", IP.Data, IP.Type1, IP.Type2)
 
