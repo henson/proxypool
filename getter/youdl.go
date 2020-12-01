@@ -40,6 +40,7 @@ func YDL() (result []*models.IP) {
 		c := strings.Split(s.Text(), "@")
 		ip.Data = c[0]
 		ip.Type1 = strings.ToLower(strings.Split(c[1], "#")[0])
+		ip.Source = "youdl"
 		result = append(result, ip)
 	})
 	clog.Info("YDL done.")

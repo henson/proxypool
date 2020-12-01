@@ -41,6 +41,7 @@ func GBJ() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = re.ReplaceAllString(tee, "")
 		ip.Type1 = s.Find("td:nth-child(3) > a").Text()
+		ip.Source = "goubanjia"
 		clog.Info("ip.Data = %s , ip.Type = %s\n", ip.Data, ip.Type1)
 		result = append(result, ip)
 	})

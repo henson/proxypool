@@ -7,7 +7,7 @@ import (
 	"github.com/henson/proxypool/pkg/models"
 )
 
-//PLP get ip from proxylistplus.com
+//PLPSSL get ip from proxylistplus.com
 func PLPSSL() (result []*models.IP) {
 	pollURL := "https://list.proxylistplus.com/SSL-List-1"
 	doc, _ := htmlquery.LoadURL(pollURL)
@@ -31,6 +31,7 @@ func PLPSSL() (result []*models.IP) {
 		} else if Type == "no" {
 			IP.Type1 = "http"
 		}
+		IP.Source = "plp-ssl"
 
 		clog.Info("[PLP SSL] ip.Data = %s,ip.Type = %s,%s", IP.Data, IP.Type1, IP.Type2)
 

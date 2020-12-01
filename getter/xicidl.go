@@ -37,6 +37,7 @@ func Xici() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = v
 		ip.Type1 = "http"
+		ip.Source = "xicidl"
 		result = append(result, ip)
 	}
 	log.Println("Xici done.")

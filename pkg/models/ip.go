@@ -11,7 +11,8 @@ type IP struct {
 	Data       string    `xorm:"NOT NULL unique" json:"ip"`
 	Type1      string    `xorm:"NOT NULL" json:"type1"`
 	Type2      string    `xorm:"NULL" json:"type2,omitempty"`
-	Speed      int64     `xorm:"NOT NULL" json:"speed,omitempty"`
+	Speed      int64     `xorm:"NOT NULL" json:"speed,omitempty"`  //连接速度
+	Source     string    `xorm:"NOT NULL" json:"source,omitempty"` //代理来源
 	CreateTime time.Time `xorm:"NOT NULL" json:"-"`
 	UpdateTime time.Time `xorm:"NOT NULL" json:"-"`
 }
@@ -34,6 +35,7 @@ func InsertIps(ip *IP) (err error) {
 	if err := ses.Begin(); err != nil {
 		return err
 	}
+	//在MySQL数据库中，考虑添加REPLACE INTO 支持，否则无法更新表中的data unique数据为最新值
 	if _, err = ses.Insert(ip); err != nil {
 		return err
 	}

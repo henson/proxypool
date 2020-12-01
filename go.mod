@@ -20,6 +20,7 @@ require (
 	github.com/nladuo/go-phantomjs-fetcher v0.0.0-20190613094346-fa84d9f5c647
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	moul.io/http2curl v1.0.0 // indirect
 	unknwon.dev/clog/v2 v2.2.0
