@@ -10,7 +10,7 @@ import (
 func KDL() (result []*models.IP) {
 	pollURL := "http://www.kuaidaili.com/free/inha/"
 	doc, _ := htmlquery.LoadURL(pollURL)
-	trNode, err := htmlquery.Find(doc, "//table[@class='table.table-bordered.table-striped']//tbody//tr")
+	trNode, err := htmlquery.Find(doc, "//table[@class='table table-bordered table-striped']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
