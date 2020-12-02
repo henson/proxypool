@@ -50,6 +50,7 @@ func IP181() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = results[i].IP + ":" + results[i].Port
 		ip.Type1 = "http"
+		ip.Source = "ip181"
 		clog.Info("[IP181] ip.Data: %s,ip.Type: %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	}

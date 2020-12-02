@@ -32,6 +32,7 @@ func PLP() (result []*models.IP) {
 			IP.Type1 = "http"
 		}
 
+		IP.Source = "plp"
 		clog.Info("[PLP] ip.Data = %s,ip.Type = %s,%s", IP.Data, IP.Type1, IP.Type2)
 
 		result = append(result, IP)

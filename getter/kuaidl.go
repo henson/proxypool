@@ -10,7 +10,7 @@ import (
 func KDL() (result []*models.IP) {
 	pollURL := "http://www.kuaidaili.com/free/inha/"
 	doc, _ := htmlquery.LoadURL(pollURL)
-	trNode, err := htmlquery.Find(doc, "//table[@class='table.table-bordered.table-striped']//tbody//tr")
+	trNode, err := htmlquery.Find(doc, "//table[@class='table table-bordered table-striped']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
@@ -29,6 +29,7 @@ func KDL() (result []*models.IP) {
 		} else if Type == "HTTP" {
 			IP.Type1 = "http"
 		}
+		IP.Source = "KDL"
 		IP.Speed = extractSpeed(speed)
 		result = append(result, IP)
 	}

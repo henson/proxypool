@@ -41,6 +41,7 @@ func Data5u() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = ss + ":" + sss
 		ip.Type1 = ssss
+		ip.Source = "data5u"
 		fmt.Printf("ip.Data = %s, ip.Type = %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	})

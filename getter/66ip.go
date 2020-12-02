@@ -36,6 +36,7 @@ func IP66() (result []*models.IP) {
 		ip := models.NewIP()
 		ip.Data = strings.TrimSpace(ips[index])
 		ip.Type1 = "http"
+		ip.Source = "66ip"
 		clog.Info("[IP66] ip = %s, type = %s", ip.Data, ip.Type1)
 		result = append(result, ip)
 	}

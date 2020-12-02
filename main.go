@@ -54,6 +54,7 @@ func main() {
 func run(ipChan chan<- *models.IP) {
 	var wg sync.WaitGroup
 	funs := []func() []*models.IP{
+		getter.FQDL, //新代理
 		//getter.Data5u,
 		//getter.Feiyi,
 		getter.IP66, //need to remove it
@@ -64,7 +65,7 @@ func run(ipChan chan<- *models.IP) {
 		//getter.XDL,
 		//getter.IP181,  // 已经无法使用
 		//getter.YDL,	//失效的采集脚本，用作系统容错实验
-		getter.PLP, //need to remove it
+		// getter.PLP, //need to remove it
 		getter.PLPSSL,
 		getter.IP89,
 	}
