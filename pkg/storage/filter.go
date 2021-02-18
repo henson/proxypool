@@ -3,6 +3,7 @@ package storage
 import (
 	//"fmt"
 
+	"crypto/tls"
 	"net/http"
 	"net/url"
 	"sync"
@@ -26,20 +27,21 @@ func CheckIP(ip *models.IP) bool {
 	var testIP string
 	if ip.Type2 == "https" {
 		testIP = "https://" + ip.Data
-		pollURL = "https://httpbin.org/status/200"
+		pollURL = "https://httpbin.org/get?show_env=1"
 	} else {
 		testIP = "http://" + ip.Data
-		pollURL = "http://httpbin.org/status/200"
+		pollURL = "http://httpbin.org/get?show_env=1"
 	}
 	proxy, _ := url.Parse(testIP)
 
 	clog.Info(testIP)
 	begin := time.Now()
+	tlsConfig := &tls.Config{InsecureSkipVerify: true}
 
 	netTransport := &http.Transport{
-		Proxy:                 http.ProxyURL(proxy),
-		MaxIdleConnsPerHost:   10,
-		ResponseHeaderTimeout: time.Second * time.Duration(20),
+		Proxy:               http.ProxyURL(proxy),
+		TLSClientConfig:     tlsConfig,
+		MaxIdleConnsPerHost: 50,
 	}
 	httpClient := &http.Client{
 		Timeout:   time.Second * 20,
