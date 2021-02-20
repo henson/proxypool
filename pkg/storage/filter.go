@@ -2,12 +2,15 @@ package storage
 
 import (
 	//"fmt"
+
+	"crypto/tls"
+	"net/http"
+	"net/url"
 	"sync"
 	"time"
 
 	sj "github.com/bitly/go-simplejson"
 	"github.com/henson/proxypool/pkg/models"
-	"github.com/parnurzeal/gorequest"
 	clog "unknwon.dev/clog/v2"
 )
 
@@ -24,16 +27,35 @@ func CheckIP(ip *models.IP) bool {
 	var testIP string
 	if ip.Type2 == "https" {
 		testIP = "https://" + ip.Data
-		pollURL = "https://ip138.com"
+		pollURL = "https://httpbin.org/get?show_env=1"
 	} else {
 		testIP = "http://" + ip.Data
-		pollURL = "http://ip138.com"
+		pollURL = "http://httpbin.org/get?show_env=1"
 	}
+	proxy, _ := url.Parse(testIP)
+
 	clog.Info(testIP)
 	begin := time.Now()
-	resp, _, errs := gorequest.New().Proxy(testIP).Get(pollURL).End()
-	if errs != nil {
-		clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, errs)
+	tlsConfig := &tls.Config{InsecureSkipVerify: true}
+
+	netTransport := &http.Transport{
+		Proxy:               http.ProxyURL(proxy),
+		TLSClientConfig:     tlsConfig,
+		MaxIdleConnsPerHost: 50,
+	}
+	httpClient := &http.Client{
+		Timeout:   time.Second * 20,
+		Transport: netTransport,
+	}
+
+	request, _ := http.NewRequest("GET", pollURL, nil)
+	//设置一个header
+	request.Header.Add("accept", "text/plain")
+
+	resp, err := httpClient.Do(request)
+
+	if err != nil {
+		clog.Warn("[CheckIP] testIP = %s, pollURL = %s: Error = %v", testIP, pollURL, err)
 		return false
 	}
 

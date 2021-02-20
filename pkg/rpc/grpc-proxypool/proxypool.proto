@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package grpc_proxypool;
+
+message Request {
+string type = 1; //定义获取的代码类型，http,https
+
+}
+
+message Response {
+string result = 1;
+}
+
+service GetService {
+rpc Get (Request) returns (Response);
+}
