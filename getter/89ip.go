@@ -26,7 +26,7 @@ func IP89() (result []*models.IP) {
 	}
 
 	if resp.StatusCode != 200 {
-		clog.Warn(err.Error())
+		clog.Warn("failed to get proxies from 89ip, http status: %d, error: %v", resp.StatusCode, err)
 		return
 	}
 	defer resp.Body.Close()

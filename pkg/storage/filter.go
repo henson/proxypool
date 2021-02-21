@@ -109,7 +109,7 @@ func ProxyRandom() (ip *models.IP) {
 	x := len(ips)
 	clog.Warn("len(ips) = %d", x)
 	if err != nil || x == 0 {
-		clog.Warn(err.Error())
+		clog.Warn("failed to get random ip, len(ips) %d, error %v", x, err)
 		return models.NewIP()
 	}
 	randomNum := RandInt(0, x)
