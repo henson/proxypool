@@ -5,19 +5,6 @@
 [![Travis Status for henson/proxypool](https://travis-ci.org/henson/proxypool.svg?branch=master)](https://travis-ci.org/henson/proxypool) [![Go Report Card](https://goreportcard.com/badge/github.com/henson/proxypool)](https://goreportcard.com/report/github.com/henson/proxypool)
 
 ## 版本更新
-- 2023年3月13日
-  最近收到很多小伙伴反馈说现在免费的ip可以使用的时长太短了，而且免费的多是透明代理，不安全。希望我推荐一个商业级的代理IP，于是有了这个更新，有需要的小伙伴可以试用一下。
-
-[IPIDEA官网地址](https://share.ipidea.net/JKIjF0AQLC89Fih)
-
-#### 产品介绍（摘自官网）
-```
-1. 覆盖超220国家和地区，9000万真实住宅IP资源，支持用户免费测试海量IP
-2. 提供动态住宅代理、静态住宅代理、数据中心、移动代理等多种解决方案，满足抓取索引、网站测试、广告验证、seo监控优化等多个业务场景。
-3. 支持HTTP/HTTPS/Socks5协议
-4. 真实住宅IP，支持从制定国家城市访问目标网站，隐藏真实网络环境，保护隐私，24小时持续过滤并更新，IP纯净度高，快速响应，无限并发，99.9%的成功率，确保高效稳定连接，让您的业务得心应手
-5. 额度套餐优惠活动，使用动态住宅最高享35折！
-```
 - 2019年12月18日 v2.4 感谢 [@sndnvaps](https://github.com/sndnvaps)
   - 添加代理网站 ip3306, plp-ssl 两个
   - 更新 数据库结构，添加创建时间和更新时间
