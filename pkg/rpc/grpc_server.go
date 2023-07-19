@@ -4,8 +4,6 @@ import (
 	"github.com/henson/proxypool/pkg/storage"
 	"github.com/henson/proxypool/pkg/rpc/grpc-proxypool"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"net"
 )
 
 type ProxyPoolGRPCService struct{}
