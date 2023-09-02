@@ -5,11 +5,11 @@ import (
 	"path/filepath"
 
 	"github.com/go-ini/ini"
-	"github.com/go-xorm/xorm"
 	"github.com/henson/proxypool/pkg/models"
 	"github.com/henson/proxypool/pkg/setting"
 	"github.com/henson/proxypool/pkg/util"
 	clog "unknwon.dev/clog/v2"
+	"xorm.io/xorm"
 )
 
 // GlobalInit is for global configuration reload-able.
@@ -26,9 +26,9 @@ func GlobalInit() {
 		models.HasEngine = true
 	}
 
-	if models.EnableSQLite3 {
-		clog.Info("SQLite3 Supported")
-	}
+	// if models.EnableSQLite3 {
+	// 	clog.Info("SQLite Supported")
+	// }
 	if !setting.InstallLock {
 		Database()
 	}

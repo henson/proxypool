@@ -15,14 +15,14 @@
   - 修复数据库中不存在https代理源的时候查询出错的问题。解决[问题#31](https://github.com/henson/proxypool/issues/31)
 - 2019年2月2日 v2.2 感谢 [@sndnvaps](https://github.com/sndnvaps)
   - 添加MAC Darwin平台的支持
-  - 添加完全的 sqlite3 支持
+  - 添加完全的 sqlite 支持
   - 添加新代理平台【feiyi，89ip】
   - fix一个bug【当数据库中无数据时，不能写入数据】
 - 2018年8月17日 v2.1 感谢 [@harrybi](https://github.com/harrybi)
   - 对代理可用性的验证，增加speed字段，验证代理的速度（毫秒）
   - 调用API获取代理IP时自动过滤掉慢的代理（>=1s）
 - 2018年7月17日 v2.0 感谢 [@sndnvaps](https://github.com/sndnvaps)
-  - 使用 xorm 来处理数据库，支持 mysql、mssql、postgres 和 sqlite3
+  - 使用 xorm 来处理数据库，支持 mysql、mssql、postgres 和 sqlite
   - 更新相应爬虫程序
   - 加入日志
 - 2017年3月30日 v1.0
@@ -88,7 +88,7 @@ HTTP_PORT = 3000
 SESSION_EXPIRES =
 
 [database]
-; Either "mysql", "postgres" or "sqlite3", you can connect to TiDB with MySQL protocol
+; Either "mysql", "postgres" or "sqlite", you can connect to TiDB with MySQL protocol
 DB_TYPE = postgres
 HOST = 127.0.0.1:5432
 NAME = ProxyPool
@@ -96,7 +96,7 @@ USER = postgres
 PASSWD =
 ; For "postgres" only, either "disable", "require" or "verify-full"
 SSL_MODE = disable
-; For "sqlite3" and "tidb", use absolute path when you start as service
+; For "sqlite" and "tidb", use absolute path when you start as service
 PATH = data/ProxyPool.db
 
 [log]
@@ -152,8 +152,8 @@ INSTALL_LOCK = false
 ```
 clog "unknwon.dev/clog/v2"
 github.com/go-ini/ini
-github.com/go-xorm/xorm
-github.com/go-xorm/core
+xorm.io/xorm
+xorm.io/core
 github.com/go-sql-driver/mysql
 github.com/lib/pq
 github.com/antchfx/htmlquery
