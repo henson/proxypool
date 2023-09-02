@@ -1,7 +1,7 @@
 package getter
 
 import (
-	"github.com/Aiicy/htmlquery"
+	"github.com/antchfx/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
 	clog "unknwon.dev/clog/v2"
 )
@@ -14,12 +14,12 @@ func KDL() (result []*models.IP) {
 		clog.Warn(err.Error())
 		return
 	}
-	trNode, err := htmlquery.Find(doc, "//table[@class='table table-bordered table-striped']//tbody//tr")
+	trNode, err := htmlquery.QueryAll(doc, "//table[@class='table table-bordered table-striped']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
 	for i := 0; i < len(trNode); i++ {
-		tdNode, err_ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.QueryAll(trNode[i], "//td")
 		if err_ != nil {
 			clog.Warn(err_.Error())
 			continue
