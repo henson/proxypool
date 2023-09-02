@@ -10,13 +10,21 @@ import (
 // FQDL get ip from https://www.fanqieip.com/
 func FQDL() (result []*models.IP) {
 	pollURL := "https://www.fanqieip.com/free/1"
-	doc, _ := htmlquery.LoadURL(pollURL)
+	doc, err := htmlquery.LoadURL(pollURL)
+	if err != nil {
+		clog.Warn(err.Error())
+		return
+	}
 	trNode, err := htmlquery.Find(doc, "//table[@class='layui-table']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
 	for i := 0; i < len(trNode); i++ {
-		tdNode, _ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.Find(trNode[i], "//td")
+		if err_ != nil {
+			clog.Warn(err_.Error())
+			continue
+		}
 		ip := extractTextFromDivNode(tdNode[0])
 		port := extractTextFromDivNode(tdNode[1])
 		Type := "http"

@@ -7,11 +7,15 @@ import (
 	"github.com/henson/proxypool/pkg/models"
 )
 
-//IP3306 get ip from http://www.ip3366.net/
+// IP3306 get ip from http://www.ip3366.net/
 func IP3306() (result []*models.IP) {
 	clog.Info("[IP3306]] start Get IpProxy")
 	pollURL := "http://www.ip3366.net/free/?stype=1&page=1"
-	doc, _ := htmlquery.LoadURL(pollURL)
+	doc, err := htmlquery.LoadURL(pollURL)
+	if err != nil {
+		clog.Warn(err.Error())
+		return
+	}
 	trNode, err := htmlquery.Find(doc, "//div[@id='list']//table//tbody//tr")
 	clog.Info("[IP3306] start up")
 	if err != nil {
@@ -21,7 +25,11 @@ func IP3306() (result []*models.IP) {
 	//debug begin
 	clog.Info("[IP3306] len(trNode) = %d ", len(trNode))
 	for i := 1; i < len(trNode); i++ {
-		tdNode, _ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.Find(trNode[i], "//td")
+		if err_ != nil {
+			clog.Warn(err_.Error())
+			return
+		}
 		ip := htmlquery.InnerText(tdNode[0])
 		port := htmlquery.InnerText(tdNode[1])
 		Type := htmlquery.InnerText(tdNode[3])
