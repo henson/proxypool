@@ -3,9 +3,8 @@ module github.com/henson/proxypool
 go 1.13
 
 require (
-	github.com/Aiicy/htmlquery v0.0.0-20191217151354-e656ce3100dc
 	github.com/PuerkitoBio/goquery v1.5.0
-	github.com/antchfx/xpath v1.1.4 // indirect
+	github.com/antchfx/htmlquery v1.3.0
 	github.com/bitly/go-simplejson v0.5.0
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
 	github.com/elazarl/goproxy v0.0.0-20201021153353-00ad82a08272 // indirect

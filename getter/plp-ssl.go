@@ -3,7 +3,7 @@ package getter
 import (
 	clog "unknwon.dev/clog/v2"
 
-	"github.com/Aiicy/htmlquery"
+	"github.com/antchfx/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
 )
 
@@ -15,12 +15,12 @@ func PLPSSL() (result []*models.IP) {
 		clog.Warn(err.Error())
 		return
 	}
-	trNode, err := htmlquery.Find(doc, "//div[@class='hfeed site']//table[@class='bg']//tbody//tr")
+	trNode, err := htmlquery.QueryAll(doc, "//div[@class='hfeed site']//table[@class='bg']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
 	for i := 3; i < len(trNode); i++ {
-		tdNode, err_ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.QueryAll(trNode[i], "//td")
 		if err_ != nil {
 			clog.Warn(err_.Error())
 			continue

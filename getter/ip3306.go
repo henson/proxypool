@@ -3,7 +3,7 @@ package getter
 import (
 	clog "unknwon.dev/clog/v2"
 
-	"github.com/Aiicy/htmlquery"
+	"github.com/antchfx/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
 )
 
@@ -16,7 +16,7 @@ func IP3306() (result []*models.IP) {
 		clog.Warn(err.Error())
 		return
 	}
-	trNode, err := htmlquery.Find(doc, "//div[@id='list']//table//tbody//tr")
+	trNode, err := htmlquery.QueryAll(doc, "//div[@id='list']//table//tbody//tr")
 	clog.Info("[IP3306] start up")
 	if err != nil {
 		clog.Info("[IP3306]] parse pollUrl error")
@@ -25,7 +25,7 @@ func IP3306() (result []*models.IP) {
 	//debug begin
 	clog.Info("[IP3306] len(trNode) = %d ", len(trNode))
 	for i := 1; i < len(trNode); i++ {
-		tdNode, err_ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.QueryAll(trNode[i], "//td")
 		if err_ != nil {
 			clog.Warn(err_.Error())
 			return
