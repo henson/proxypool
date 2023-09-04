@@ -185,7 +185,7 @@ func SetEngine() (err error) {
 	}
 
 	if !setting.DebugMode {
-		x.SetLogger(log.NewSimpleLogger3(logger, log.DEFAULT_LOG_PREFIX, log.DEFAULT_LOG_FLAG, log.LOG_WARNING))
+		x.SetLogger(log.NewSimpleLogger3(logger, log.DEFAULT_LOG_PREFIX, log.DEFAULT_LOG_FLAG, log.LOG_INFO))
 	} else {
 		x.SetLogger(log.NewSimpleLogger3(logger, log.DEFAULT_LOG_PREFIX, log.DEFAULT_LOG_FLAG, log.LOG_DEBUG))
 	}
