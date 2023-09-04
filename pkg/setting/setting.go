@@ -30,7 +30,7 @@ var (
 	ConfFile  string
 
 	// Database settings
-	UseSQLite3    bool
+	UseSQLite     bool
 	UseMySQL      bool
 	UsePostgreSQL bool
 	UseMSSQL      bool
@@ -120,7 +120,7 @@ func NewContext() {
 	SessionExpires = sec.Key("SESSION_EXPIRES").MustDuration(time.Hour * 24 * 7)
 }
 
-//NewLogService Init clog service
+// NewLogService Init clog service
 func NewLogService() {
 	// Because we always create a console logger as primary logger before all settings are loaded,
 	// thus if user doesn't set console logger, we should remove it after other loggers are created.

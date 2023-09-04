@@ -1,7 +1,7 @@
 package getter
 
 import (
-	"github.com/Aiicy/htmlquery"
+	"github.com/antchfx/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
 	clog "unknwon.dev/clog/v2"
 )
@@ -9,13 +9,21 @@ import (
 // KDL get ip from kuaidaili.com
 func KDL() (result []*models.IP) {
 	pollURL := "http://www.kuaidaili.com/free/inha/"
-	doc, _ := htmlquery.LoadURL(pollURL)
-	trNode, err := htmlquery.Find(doc, "//table[@class='table table-bordered table-striped']//tbody//tr")
+	doc, err := htmlquery.LoadURL(pollURL)
+	if err != nil {
+		clog.Warn(err.Error())
+		return
+	}
+	trNode, err := htmlquery.QueryAll(doc, "//table[@class='table table-bordered table-striped']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
 	for i := 0; i < len(trNode); i++ {
-		tdNode, _ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.QueryAll(trNode[i], "//td")
+		if err_ != nil {
+			clog.Warn(err_.Error())
+			continue
+		}
 		ip := htmlquery.InnerText(tdNode[0])
 		port := htmlquery.InnerText(tdNode[1])
 		Type := htmlquery.InnerText(tdNode[3])

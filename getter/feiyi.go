@@ -6,16 +6,16 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/Aiicy/htmlquery"
+	"github.com/antchfx/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
 )
 
-//feiyi get ip from feiyiproxy.com
+// feiyi get ip from feiyiproxy.com
 func Feiyi() (result []*models.IP) {
 	clog.Info("FEIYI] start test")
 	pollURL := "http://www.feiyiproxy.com/?page_id=1457"
 	doc, _ := htmlquery.LoadURL(pollURL)
-	trNode, err := htmlquery.Find(doc, "//div[@class='et_pb_code.et_pb_module.et_pb_code_1']//div//table//tbody//tr")
+	trNode, err := htmlquery.QueryAll(doc, "//div[@class='et_pb_code.et_pb_module.et_pb_code_1']//div//table//tbody//tr")
 	clog.Info("[FEIYI] start up")
 	if err != nil {
 		clog.Info("FEIYI] parse pollUrl error")
@@ -24,7 +24,7 @@ func Feiyi() (result []*models.IP) {
 	//debug begin
 	clog.Info("[FEIYI] len(trNode) = %d ", len(trNode))
 	for i := 1; i < len(trNode); i++ {
-		tdNode, _ := htmlquery.Find(trNode[i], "//td")
+		tdNode, _ := htmlquery.QueryAll(trNode[i], "//td")
 		ip := htmlquery.InnerText(tdNode[0])
 		port := htmlquery.InnerText(tdNode[1])
 		Type := htmlquery.InnerText(tdNode[3])

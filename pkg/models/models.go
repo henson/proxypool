@@ -2,7 +2,6 @@ package models
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
 	"net/url"
 	"os"
@@ -11,11 +10,12 @@ import (
 
 	"github.com/go-clog/clog"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
 	"github.com/henson/proxypool/pkg/setting"
 	_ "github.com/lib/pq"
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 	"xorm.io/core"
+	"xorm.io/xorm"
+	"xorm.io/xorm/log"
 )
 
 // Engine represents a XORM engine or session.
@@ -45,7 +45,7 @@ var (
 	DbCfg struct {
 		Type, Host, Name, User, Passwd, Path, SSLMode string
 	}
-	EnableSQLite3 bool
+	// EnableSQLite3 bool
 )
 
 func init() {
@@ -63,9 +63,9 @@ func LoadDatabaseInfo() {
 	sec := setting.Cfg.Section("database")
 	DbCfg.Type = sec.Key("DB_TYPE").String()
 	switch DbCfg.Type {
-	case "sqlite3":
-		setting.UseSQLite3 = true
-		EnableSQLite3 = true
+	case "sqlite":
+		setting.UseSQLite = true
+		// EnableSQLite3 = true
 	case "mysql":
 		setting.UseMySQL = true
 	case "postgres":
@@ -139,10 +139,7 @@ func getEngine() (*xorm.Engine, error) {
 	case "mssql":
 		host, port := parseMSSQLHostPort(DbCfg.Host)
 		connStr = fmt.Sprintf("server=%s; port=%s; database=%s; user id=%s; password=%s;", host, port, DbCfg.Name, DbCfg.User, DbCfg.Passwd)
-	case "sqlite3":
-		if !EnableSQLite3 {
-			return nil, errors.New("this binary version does not build support for SQLite3")
-		}
+	case "sqlite":
 		if err := os.MkdirAll(path.Dir(DbCfg.Path), os.ModePerm); err != nil {
 			return nil, fmt.Errorf("Fail to create directories: %v", err)
 		}
@@ -188,9 +185,9 @@ func SetEngine() (err error) {
 	}
 
 	if !setting.DebugMode {
-		x.SetLogger(xorm.NewSimpleLogger3(logger, xorm.DEFAULT_LOG_PREFIX, xorm.DEFAULT_LOG_FLAG, core.LOG_WARNING))
+		x.SetLogger(log.NewSimpleLogger3(logger, log.DEFAULT_LOG_PREFIX, log.DEFAULT_LOG_FLAG, log.LOG_INFO))
 	} else {
-		x.SetLogger(xorm.NewSimpleLogger(logger))
+		x.SetLogger(log.NewSimpleLogger3(logger, log.DEFAULT_LOG_PREFIX, log.DEFAULT_LOG_FLAG, log.LOG_DEBUG))
 	}
 	x.ShowSQL(true)
 	return nil

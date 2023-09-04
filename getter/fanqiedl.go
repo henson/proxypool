@@ -1,7 +1,7 @@
 package getter
 
 import (
-	"github.com/Aiicy/htmlquery"
+	"github.com/antchfx/htmlquery"
 	"github.com/henson/proxypool/pkg/models"
 	"golang.org/x/net/html"
 	clog "unknwon.dev/clog/v2"
@@ -10,13 +10,21 @@ import (
 // FQDL get ip from https://www.fanqieip.com/
 func FQDL() (result []*models.IP) {
 	pollURL := "https://www.fanqieip.com/free/1"
-	doc, _ := htmlquery.LoadURL(pollURL)
-	trNode, err := htmlquery.Find(doc, "//table[@class='layui-table']//tbody//tr")
+	doc, err := htmlquery.LoadURL(pollURL)
+	if err != nil {
+		clog.Warn(err.Error())
+		return
+	}
+	trNode, err := htmlquery.QueryAll(doc, "//table[@class='layui-table']//tbody//tr")
 	if err != nil {
 		clog.Warn(err.Error())
 	}
 	for i := 0; i < len(trNode); i++ {
-		tdNode, _ := htmlquery.Find(trNode[i], "//td")
+		tdNode, err_ := htmlquery.QueryAll(trNode[i], "//td")
+		if err_ != nil {
+			clog.Warn(err_.Error())
+			continue
+		}
 		ip := extractTextFromDivNode(tdNode[0])
 		port := extractTextFromDivNode(tdNode[1])
 		Type := "http"
@@ -35,7 +43,7 @@ func FQDL() (result []*models.IP) {
 }
 
 func extractTextFromDivNode(node *html.Node) string {
-	divNode, _ := htmlquery.Find(node, "//div")
+	divNode, _ := htmlquery.QueryAll(node, "//div")
 	divOut := htmlquery.InnerText(divNode[0])
 	return divOut
 }
